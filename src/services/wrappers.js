@@ -156,7 +156,7 @@ export function WrapperIB(datosIB) {
     datosEG.descripcion = ""
     datosEG.localidad_nombre = datosIB.municipi
     datosEG.provincia_nombre = "Illes Balears"
-    datosEG.provincia_codigo = 07
+    datosEG.provincia_codigo = "07"
 
     return datosEG;
 }
