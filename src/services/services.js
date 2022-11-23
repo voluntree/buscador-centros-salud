@@ -1,4 +1,8 @@
 import { WrapperCV } from "./wrappers";
+import { getDatabase, ref, set } from "firebase/database";
+import { db } from "../firebase";
+const md5 = require("md5")
+
 
 
 export function arrayAJsonCV(array) {
@@ -11,6 +15,17 @@ export function arrayAJsonCV(array) {
   return json;
 }
 
-export async function upload(){
-  
+export async function upload(hospitales){
+  let claves = Object.keys(hospitales);
+  for (let i = 0; i < claves.length; i++){
+    let clave = claves[i];
+    let hashClave = md5(clave);
+    let refer = ref(db,"centros/" + hashClave)
+    set(refer,{...hospitales[clave]})
+  }
 }
+
+const data = require("../fuentes/GV.json");
+console.log(data);
+const array = arrayAJsonCV(data)
+upload(array)
