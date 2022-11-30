@@ -1,16 +1,16 @@
-const {By, Key, Builder} = require('selenium-webdriver');
-require ('chromedriver');
+const webdriver = require('selenium-webdriver');
+const chrome = require('selenium-webdriver/chrome');
+const opts = new chrome.Options();
 
-async function test() {
-    let driver = await new Builder().forBrowser('chrome').build();
-    
-    await driver.get('https://www.google.com');
+async function helloSelenium() {
+    opts.headless(true);
+    let driver = await new webdriver.Builder().
+                 forBrowser('chrome')
+                 .setChromeOptions(opts)
+                 .build();
 
-    await driver.findElement(By.name('q')).sendKeys('webdriver', Key.RETURN);
+    await driver.get('https://selenium.dev');
 
-    setTimeout(function() {
-        driver.quit();
-    }, 10000);
 }
 
-test();
+helloSelenium();
