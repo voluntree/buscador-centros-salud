@@ -1,0 +1,112 @@
+[
+  {
+    "the_geom": "POINT (2.932945880081 39.366618658015)",
+    "objectid": 61,
+    "inspireid": "ES.GOIB.SUP_ActivityComplex.00895",
+    "nom": "UB Sa Ràpita",
+    "funcio": "UNITAT BÀSICA",
+    "long": 2.93294588,
+    "lat": 39.36661866,
+    "adreca": "Carrer de Tintorera, 9",
+    "municipi": "Campos"
+  },
+  {
+    "the_geom": "POINT (3.220994083498 39.567302244684)",
+    "objectid": 143,
+    "inspireid": "ES.GOIB.SUP_ActivityComplex.00977",
+    "nom": "CS Na Camel·la",
+    "funcio": "CENTRE SANITARI PREVIST",
+    "long": 3.22099408,
+    "lat": 39.56730225,
+    "adreca": "Carrer d'en Tià de sa Real, 1",
+    "municipi": "Manacor"
+  },
+  {
+    "the_geom": "POINT (3.125081748511 39.854940392136)",
+    "objectid": 12,
+    "inspireid": "ES.GOIB.SUP_ActivityComplex.00846",
+    "nom": "CS SAFRÀ- Alcúdia",
+    "funcio": "CENTRE SANITARI",
+    "long": 3.12508175,
+    "lat": 39.85494039,
+    "adreca": "Carrer de Formentera, 3",
+    "municipi": "Alcúdia"
+  },
+  {
+    "the_geom": "POINT (2.481029168676 39.488657095857)",
+    "objectid": 49,
+    "inspireid": "ES.GOIB.SUP_ActivityComplex.00883",
+    "nom": "UB El Toro",
+    "funcio": "UNITAT BÀSICA",
+    "long": 2.4810291700000002,
+    "lat": 39.4886571,
+    "adreca": "Gran Via, 29",
+    "municipi": "Calvià"
+  },
+  {
+    "the_geom": "POINT (3.057533581553 39.339594236788)",
+    "objectid": 64,
+    "inspireid": "ES.GOIB.SUP_ActivityComplex.00898",
+    "nom": "UB Ses Salines",
+    "funcio": "UNITAT BÀSICA",
+    "long": 3.05753358,
+    "lat": 39.33959424,
+    "adreca": "Carrer de na Bergues, 30",
+    "municipi": "Ses Salines"
+  },
+  {
+    "the_geom": "POINT (4.011959130319 39.984139777418)",
+    "objectid": 2,
+    "inspireid": "ES.GOIB.SUP_ActivityComplex.00836",
+    "nom": "CS Ferreies",
+    "funcio": "CENTRE SANITARI",
+    "long": 4.01195913,
+    "lat": 39.98413978,
+    "adreca": "Carrer del bisbe Sever, 3",
+    "municipi": "Ferreries"
+  },
+  {
+    "the_geom": "POINT (4.131979970754 40.056582966122)",
+    "objectid": 41,
+    "inspireid": "ES.GOIB.SUP_ActivityComplex.00875",
+    "nom": "UB Fornells",
+    "funcio": "UNITAT BÀSICA",
+    "long": 4.13197997,
+    "lat": 40.05658297,
+    "adreca": "Carrer Ses Escoles, 6",
+    "municipi": "Es Mercadal"
+  },
+  {
+    "the_geom": "POINT (2.857940655108 39.641333228111)",
+    "objectid": 104,
+    "inspireid": "ES.GOIB.SUP_ActivityComplex.00938",
+    "nom": "UBS Biniali",
+    "funcio": "UNITAT BÀSICA",
+    "long": 2.85794066,
+    "lat": 39.64133323,
+    "adreca": "Carrer des Torrent 6",
+    "municipi": "Sencelles"
+  },
+  {
+    "the_geom": "POINT (2.660880317325 39.581899859248)",
+    "objectid": 129,
+    "inspireid": "ES.GOIB.SUP_ActivityComplex.00963",
+    "nom": "CS ARQUITECTE BENNÀSSAR",
+    "funcio": "CENTRE SANITARI",
+    "long": 2.66088032,
+    "lat": 39.58189986,
+    "adreca": "Carrer de Gaspar Bennàssar, 9",
+    "municipi": "Palma"
+  },
+  {
+    "the_geom": "POINT (1.433637871361 38.928648555978)",
+    "objectid": 75,
+    "inspireid": "ES.GOIB.SUP_ActivityComplex.00909",
+    "nom": "UB de Puig d'en Valls",
+    "funcio": "UNITAT BÀSICA",
+    "long": 1.43363787,
+    "lat": 38.92864856,
+    "adreca": "Carrer del torrent de ses Dones, 2",
+    "municipi": "Santa Eulària des Riu"
+  }
+]
