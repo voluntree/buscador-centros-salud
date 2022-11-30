@@ -101,7 +101,7 @@ function definirTipoIB(tipoOrigen){
     return tipo;
 }
 
-export function WrapperCV(datosCV) {
+export function ExtractorCV(datosCV) {
     let datosEG = crearObjetoEsquemaGlobal();
     datosCV = JSON.parse(datosCV);
 
@@ -121,7 +121,7 @@ export function WrapperCV(datosCV) {
     return datosEG;
 }
 
-export function WrapperEuskadi(datosEuskadi) {
+export function ExtractorEUS(datosEuskadi) {
     let datosEG = crearObjetoEsquemaGlobal();
     datosEuskadi = JSON.parse(datosEuskadi);
 
@@ -142,7 +142,7 @@ export function WrapperEuskadi(datosEuskadi) {
     return datosEG;
 }
 
-export function WrapperIB(datosIB) {
+export function ExtractorIB(datosIB) {
     let datosEG = crearObjetoEsquemaGlobal();
     datosIB = JSON.parse(datosIB);
 

@@ -1,14 +1,32 @@
-import { WrapperCV } from "./wrappers";
+import { ExtractorCV, ExtractorEUS, ExtractorIB } from "./wrappers";
 import { getDatabase, ref, set } from "firebase/database";
 import { db } from "../firebase";
 const md5 = require("md5")
 
-
-
 export function arrayAJsonCV(array) {
   let json = {};
   array.forEach((element) => {
-    let elem = WrapperCV(JSON.stringify(element));
+    let elem = ExtractorCV(JSON.stringify(element));
+    json[elem.nombre] = elem;
+  });
+
+  return json;
+}
+
+export function arrayAJsonEUS(array) {
+  let json = {};
+  array.forEach((element) => {
+    let elem = ExtractorEUS(JSON.stringify(element));
+    json[elem.nombre] = elem;
+  });
+
+  return json;
+}
+
+export function arrayAJsonIB(array) {
+  let json = {};
+  array.forEach((element) => {
+    let elem = ExtractorIB(JSON.stringify(element));
     json[elem.nombre] = elem;
   });
 
