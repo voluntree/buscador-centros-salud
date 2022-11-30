@@ -1,4 +1,4 @@
-import { ExtractorCV, ExtractorEUS, ExtractorIB } from "./wrappers";
+import { ExtractorCV, ExtractorEUS, ExtractorIB } from "./extractores";
 import { getDatabase, ref, set } from "firebase/database";
 import { db } from "../firebase";
 const md5 = require("md5")
