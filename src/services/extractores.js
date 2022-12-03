@@ -1,4 +1,4 @@
-import { getCoordenadasCV, getTelefonoCV } from "./scraper";
+import { getCoordenadas, getTelefono } from "./scraper";
 
 function crearObjetoEsquemaGlobal(){
     var datosEG = {nombre: "",
@@ -111,12 +111,12 @@ export async function ExtractorCV(datosCV) {
     datosEG.tipo = definirTipoCV(datosCV["Tipus_centre / Tipo_centro"]);
     datosEG.direccion = datosCV["Adreça / Dirección"]
     //Datos generados con Selenium mediante la web
-    var data = await getCoordenadasCV(datosCV["Adreça / Dirección"],datosCV["Província / Provincia"] , datosCV["Municipi / Municipio"]);
+    var data = await getCoordenadas(datosCV["Adreça / Dirección"],datosCV["Província / Provincia"] , datosCV["Municipi / Municipio"]);
     datosEG.codigo_postal = data.codigo_postal
     datosEG.longitud = data.longitud
     datosEG.latitud = data.latitud
 
-    datosEG.telefono = await getTelefonoCV()
+    datosEG.telefono = await getTelefono(datosCV["Centre / Centro"])
 
     datosEG.descripcion = datosCV["Tipus_centre / Tipo_centro"]
     datosEG.localidad_nombre = datosCV["Municipi / Municipio"]
@@ -147,17 +147,18 @@ export function ExtractorEUS(datosEuskadi) {
     return datosEG;
 }
 
-export function ExtractorIB(datosIB) {
+export async function ExtractorIB(datosIB) {
     let datosEG = crearObjetoEsquemaGlobal();
     datosIB = JSON.parse(datosIB);
 
     datosEG.nombre = datosIB.nom
     datosEG.tipo = definirTipoIB(datosIB.funcio)
     datosEG.direccion = datosIB.adreça
-    datosEG.codigo_postal = ""
+    var data = await getCoordenadas(datosIB.adreça, "Illes Balears", datosIB.municipi);
+    datosEG.codigo_postal = data.codigo_postal
     datosEG.longitud = datosIB.long
     datosEG.latitud = datosIB.lat
-    datosEG.telefono = ""
+    datosEG.telefono = await getTelefono(datosIB.nom)
     datosEG.descripcion = ""
     datosEG.localidad_nombre = datosIB.municipi
     datosEG.provincia_nombre = "Illes Balears"

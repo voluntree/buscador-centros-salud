@@ -3,7 +3,7 @@ const webdriver = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const opts = new chrome.Options();
 
-async function getCoordenadasCV(direccion, provincia, municipio) {
+export async function getCoordenadas(direccion, provincia, municipio) {
     opts.headless(true)
     opts.windowSize({width: 1366, height: 768})
     let driver = await new webdriver.Builder().
@@ -38,7 +38,7 @@ async function getCoordenadasCV(direccion, provincia, municipio) {
     return [{latitud: latitud}, {longitud: longitud}, {codigo_postal: codigo_postal}]
 }
 
-async function getTelefonoCV(nombre) {
+export async function getTelefono(nombre) {
     opts.headless(true)
     opts.windowSize({width: 1920, height: 1080})
     let driver = await new webdriver.Builder().
@@ -68,8 +68,6 @@ async function getTelefonoCV(nombre) {
 
     return telefono
 }
-
-getTelefonoCV("CLÍNICA DENTAL RAQUEL REDÓ")
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
