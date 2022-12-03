@@ -38,7 +38,33 @@ async function getCoordenadasCV(direccion, provincia, municipio) {
     return [{latitud: latitud}, {longitud: longitud}, {codigo_postal: codigo_postal}]
 }
 
-getCoordenadasCV("CALLE EMPARRADO  3", "Valencia", "Mislata");
+async function getTelefonoCV(nombre) {
+    opts.windowSize({width: 1920, height: 1080})
+    let driver = await new webdriver.Builder().
+                 forBrowser('chrome')
+                 .setChromeOptions(opts)
+                 .build();
+
+    await driver.get('https://www.google.es/');
+    var ventanaCookies = await driver.findElement(By.xpath('//*[@id="L2AGLb"]/div'));
+    if(ventanaCookies != null){
+        console.log("Detectado caja cookies");
+        await ventanaCookies.click()
+    }
+
+    var barraBusqueda = await driver.findElement(By.name("q"));
+    await barraBusqueda.sendKeys(nombre);
+    await barraBusqueda.submit();
+    await sleep(1000)
+
+    var contenedorTelefono = await driver.findElement(By.xpath('//*[@id="kp-wp-tab-overview"]/div[1]/div/div/div/div/div/div[7]/div/div/div/span[2]/span/a/span/span'))
+    var telefono = await contenedorTelefono.getAttribute("innerText");
+    console.log(telefono)
+
+    driver.quit()
+}
+
+getTelefonoCV("CENTRO DE RECONOCIMIENTO DE CONDUCTORES SERMESA MISLATA")
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));

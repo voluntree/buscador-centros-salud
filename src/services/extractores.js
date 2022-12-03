@@ -1,3 +1,5 @@
+import { getCoordenadasCV } from "./scraper";
+
 function crearObjetoEsquemaGlobal(){
     var datosEG = {nombre: "",
                    tipo: "",
@@ -101,7 +103,7 @@ function definirTipoIB(tipoOrigen){
     return tipo;
 }
 
-export function ExtractorCV(datosCV) {
+export async function ExtractorCV(datosCV) {
     let datosEG = crearObjetoEsquemaGlobal();
     datosCV = JSON.parse(datosCV);
 
@@ -109,10 +111,13 @@ export function ExtractorCV(datosCV) {
     datosEG.tipo = definirTipoCV(datosCV["Tipus_centre / Tipo_centro"]);
     datosEG.direccion = datosCV["Adreça / Dirección"]
     //Datos generados con Selenium mediante la web
-    /*datosEG.codigo_postal =
-      datosEG.longitud =
-      datosEG.latitud =
-      datosEG.telefono??*/
+    var data = await getCoordenadasCV(datosCV["Adreça / Dirección"],datosCV["Província / Provincia"] , datosCV["Municipi / Municipio"]);
+    datosEG.codigo_postal = data.codigo_postal
+    datosEG.longitud = data.longitud
+    datosEG.latitud = data.latitud
+
+    datosEG.telefono = 
+
     datosEG.descripcion = datosCV["Tipus_centre / Tipo_centro"]
     datosEG.localidad_nombre = datosCV["Municipi / Municipio"]
     datosEG.provincia_nombre = datosCV["Província / Provincia"]
