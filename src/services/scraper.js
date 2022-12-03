@@ -3,7 +3,7 @@ const webdriver = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const opts = new chrome.Options();
 
-export async function getCoordenadasCV(direccion, provincia, municipio) {
+async function getCoordenadasCV(direccion, provincia, municipio) {
     opts.headless(true)
     opts.windowSize({width: 1366, height: 768})
     let driver = await new webdriver.Builder().
@@ -38,8 +38,11 @@ export async function getCoordenadasCV(direccion, provincia, municipio) {
     return [{latitud: latitud}, {longitud: longitud}, {codigo_postal: codigo_postal}]
 }
 
-export async function getTelefonoCV(nombre) {
+async function getTelefonoCV(nombre) {
+    opts.headless(true)
     opts.windowSize({width: 1920, height: 1080})
+    opts.addArguments("--disable-extensions:true",
+                       "--disable-gpu")
     let driver = await new webdriver.Builder().
                  forBrowser('chrome')
                  .setChromeOptions(opts)
@@ -67,6 +70,8 @@ export async function getTelefonoCV(nombre) {
 
     return telefono
 }
+
+getTelefonoCV("HOSPITAL SAN CARLOS DE DENIA GRUPO HLA")
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));

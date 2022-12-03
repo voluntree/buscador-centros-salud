@@ -9215,10 +9215,10 @@
   "resolved" "https://registry.npmjs.org/select-hose/-/select-hose-2.0.0.tgz"
   "version" "2.0.0"
 
-"selenium-webdriver@^4.6.1":
-  "integrity" "sha512-FT8Dw0tbzaTp8YYLuwhaCnve/nw03HKrOJrA3aUmTKmxaIFSP4kT2R5fN3K0RpV5kbR0ZnM4FGVI2vANBvekaA=="
-  "resolved" "https://registry.npmjs.org/selenium-webdriver/-/selenium-webdriver-4.6.1.tgz"
-  "version" "4.6.1"
+"selenium-webdriver@^4.7.0":
+  "integrity" "sha512-ZB/77G6xKz96beiUIq6RSdU/Klccg8Fg6lGvEmsVSeLwOWjmJDRehBeXE/y59mytOqitYSewFzJsSU5Xov1X+Q=="
+  "resolved" "https://registry.npmjs.org/selenium-webdriver/-/selenium-webdriver-4.7.0.tgz"
+  "version" "4.7.0"
   dependencies:
     "jszip" "^3.10.0"
     "tmp" "^0.2.1"
