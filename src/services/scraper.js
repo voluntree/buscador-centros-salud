@@ -41,8 +41,6 @@ async function getCoordenadasCV(direccion, provincia, municipio) {
 async function getTelefonoCV(nombre) {
     opts.headless(true)
     opts.windowSize({width: 1920, height: 1080})
-    opts.addArguments("--disable-extensions:true",
-                       "--disable-gpu")
     let driver = await new webdriver.Builder().
                  forBrowser('chrome')
                  .setChromeOptions(opts)
@@ -58,9 +56,9 @@ async function getTelefonoCV(nombre) {
     var barraBusqueda = await driver.findElement(By.name("q"));
     await barraBusqueda.sendKeys(nombre);
     await barraBusqueda.submit();
-    await sleep(1000)
+    await sleep(3000)
 
-    var contenedorTelefono = await driver.findElement(By.xpath('//*[@id="kp-wp-tab-overview"]/div[1]/div/div/div/div/div/div[7]/div/div/div/span[2]/span/a/span/span'))
+    var contenedorTelefono = await driver.findElement(By.xpath("//span[contains(@aria-label,'Llamar al número de teléfono')]"))
     if(contenedorTelefono != null){
         var telefono = await contenedorTelefono.getAttribute("innerText");
         console.log(telefono)
@@ -71,7 +69,7 @@ async function getTelefonoCV(nombre) {
     return telefono
 }
 
-getTelefonoCV("HOSPITAL SAN CARLOS DE DENIA GRUPO HLA")
+getTelefonoCV("CLÍNICA DENTAL RAQUEL REDÓ")
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
