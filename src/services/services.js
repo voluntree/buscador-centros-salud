@@ -43,7 +43,7 @@ export async function upload(hospitales){
   }
 }
 
-const data = require("../fuentes/GV.json");
+const data = require("../fuentes/primera_entrega/CV.json");
 console.log(data);
 const array = arrayAJsonCV(data)
 upload(array)

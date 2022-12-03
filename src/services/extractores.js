@@ -1,4 +1,4 @@
-import { getCoordenadasCV } from "./scraper";
+import { getCoordenadasCV, getTelefonoCV } from "./scraper";
 
 function crearObjetoEsquemaGlobal(){
     var datosEG = {nombre: "",
@@ -116,7 +116,7 @@ export async function ExtractorCV(datosCV) {
     datosEG.longitud = data.longitud
     datosEG.latitud = data.latitud
 
-    datosEG.telefono = 
+    datosEG.telefono = await getTelefonoCV()
 
     datosEG.descripcion = datosCV["Tipus_centre / Tipo_centro"]
     datosEG.localidad_nombre = datosCV["Municipi / Municipio"]

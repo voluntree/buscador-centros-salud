@@ -64,9 +64,9 @@ export async function getTelefonoCV(nombre) {
     }
     
     driver.quit()
-}
 
-getTelefonoCV("CENTRO DE RECONOCIMIENTO DE CONDUCTORES SERMESA MISLATA")
+    return telefono
+}
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
