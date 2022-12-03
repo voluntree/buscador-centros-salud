@@ -3,7 +3,7 @@ const webdriver = require('selenium-webdriver');
 const chrome = require('selenium-webdriver/chrome');
 const opts = new chrome.Options();
 
-async function getCoordenadasCV(direccion, provincia, municipio) {
+export async function getCoordenadasCV(direccion, provincia, municipio) {
     opts.headless(true)
     opts.windowSize({width: 1366, height: 768})
     let driver = await new webdriver.Builder().
@@ -38,7 +38,7 @@ async function getCoordenadasCV(direccion, provincia, municipio) {
     return [{latitud: latitud}, {longitud: longitud}, {codigo_postal: codigo_postal}]
 }
 
-async function getTelefonoCV(nombre) {
+export async function getTelefonoCV(nombre) {
     opts.windowSize({width: 1920, height: 1080})
     let driver = await new webdriver.Builder().
                  forBrowser('chrome')
@@ -58,9 +58,11 @@ async function getTelefonoCV(nombre) {
     await sleep(1000)
 
     var contenedorTelefono = await driver.findElement(By.xpath('//*[@id="kp-wp-tab-overview"]/div[1]/div/div/div/div/div/div[7]/div/div/div/span[2]/span/a/span/span'))
-    var telefono = await contenedorTelefono.getAttribute("innerText");
-    console.log(telefono)
-
+    if(contenedorTelefono != null){
+        var telefono = await contenedorTelefono.getAttribute("innerText");
+        console.log(telefono)
+    }
+    
     driver.quit()
 }
 
