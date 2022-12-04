@@ -11,6 +11,9 @@ export async function getCoordenadas(direccion, provincia, municipio) {
                     forBrowser('chrome')
                     .setChromeOptions(opts)
                     .build();
+    var latitud = ""
+    var longitud = ""
+    var codigo_postal = ""
     try{
         await driver.get('https://www.coordenadas-gps.com/');
         
@@ -23,12 +26,14 @@ export async function getCoordenadas(direccion, provincia, municipio) {
         var obtenerCoordenadas = await driver.findElement(By.xpath('//*[@id="wrap"]/div[2]/div[3]/div[1]/form[1]/div[2]/div/button'))
         try{
         await obtenerCoordenadas.click();
+        await sleep(1000)
         }catch(e){
             var alerta = await driver.switchTo().alert() 
         
             await alerta.accept();
             console.log("Error coordenadas")
             direccionInput = await driver.findElement(By.id("address"));
+
             await direccionInput.clear();
             await direccionInput.sendKeys(direccion);
             console.log("Texto introducido: " + direccion);
@@ -41,26 +46,34 @@ export async function getCoordenadas(direccion, provincia, municipio) {
         await sleep(2000);
 
         var latitudeInput = await driver.findElement(By.id("latitude"));
-        var latitud = await latitudeInput.getAttribute("value");
+        latitud = await latitudeInput.getAttribute("value");
         console.log("Latitud: " + latitud);
 
         var longitudeInput = await driver.findElement(By.id("longitude"));
-        var longitud = await longitudeInput.getAttribute("value");
+        longitud = await longitudeInput.getAttribute("value");
         console.log("Longitud: " + longitud);
 
         var data = await (await direccionInput.getAttribute("value")).split(",");
         console.log("Direccion: " + data)
-        var codigo_postal = data[data.length - 2].substring(0, 6).trim();
+        codigo_postal = data[data.length - 2].substring(0, 6).trim();
         console.log("Codigo Postal: " + codigo_postal);
         
         driver.quit()
         console.log("Fin");
 
-        return [{latitud: latitud}, {longitud: longitud}, {codigo_postal: codigo_postal}]
-    }catch(e){
-        console.log(e)
+    }catch(error){
+        console.error(error)
         driver.quit()
+        console.error("Scraper closed")
     }
+    
+    var object = {
+        latitud: latitud,
+        longitud: longitud,
+        codigo_postal: codigo_postal 
+    }
+
+    return object
 }
 
 export async function getTelefono(nombre) {
@@ -70,6 +83,7 @@ export async function getTelefono(nombre) {
                 .forBrowser('chrome')
                 .setChromeOptions(opts)
                 .build();
+    var telefono = ""
     try{
         await driver.get('https://www.google.es/');
         var ventanaCookies = await driver.findElement(By.xpath('//*[@id="L2AGLb"]/div'));
@@ -85,17 +99,17 @@ export async function getTelefono(nombre) {
 
         var contenedorTelefono = await driver.findElement(By.xpath("//span[contains(@aria-label,'Llamar al número de teléfono')]"))
         if(contenedorTelefono != null){
-            var telefono = await contenedorTelefono.getAttribute("innerText");
+            telefono = await contenedorTelefono.getAttribute("innerText");
             console.log(telefono)
         }
         
         driver.quit()
-
-        return telefono
-    }catch(e){
-        console.log(e)
+    }catch(error){
+        console.error(error)
         driver.quit()
+        console.error("Scraper closed")
     }
+        return telefono
 }
 
 function sleep(ms) {

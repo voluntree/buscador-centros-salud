@@ -48,4 +48,5 @@ export async function upload(hospitales){
 
 console.log(data);
 const datosCV = await arrayAJsonCV(data)
+console.log(datosCV)
 upload(datosCV)
