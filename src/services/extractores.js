@@ -1,4 +1,4 @@
-import { getCoordenadas, getTelefono } from "./scraper";
+import { getCoordenadas, getTelefono } from "./scraper.js";
 
 function crearObjetoEsquemaGlobal(){
     var datosEG = {nombre: "",
@@ -104,14 +104,14 @@ function definirTipoIB(tipoOrigen){
 }
 
 export async function ExtractorCV(datosCV) {
-    let datosEG = crearObjetoEsquemaGlobal();
+    var datosEG = crearObjetoEsquemaGlobal();
     datosCV = JSON.parse(datosCV);
 
     datosEG.nombre = datosCV["Centre / Centro"]
     datosEG.tipo = definirTipoCV(datosCV["Tipus_centre / Tipo_centro"]);
     datosEG.direccion = datosCV["Adreça / Dirección"]
     //Datos generados con Selenium mediante la web
-    var data = await getCoordenadas(datosCV["Adreça / Dirección"],datosCV["Província / Provincia"] , datosCV["Municipi / Municipio"]);
+    var data = await getCoordenadas(datosCV["Adreça / Dirección"].replace("S/N",""),datosCV["Província / Provincia"] , datosCV["Municipi / Municipio"]);
     datosEG.codigo_postal = data.codigo_postal
     datosEG.longitud = data.longitud
     datosEG.latitud = data.latitud
@@ -142,7 +142,7 @@ export function ExtractorEUS(datosEuskadi) {
                         ++ datosEuskadi.Hospitaldereferencia
     datosEG.localidad_nombre = datosEuskadi.Municipio
     datosEG.provincia_nombre = datosEuskadi.Provincia
-    datosEG.provincia_codigo = datosEuskadi.Codigopostal
+    datosEG.provincia_codigo = datosEuskadi.Codigopostal.substring(0,2)
 
     return datosEG;
 }

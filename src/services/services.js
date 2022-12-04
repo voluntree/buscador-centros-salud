@@ -1,19 +1,21 @@
-import { ExtractorCV, ExtractorEUS, ExtractorIB } from "./extractores";
+import { ExtractorCV, ExtractorEUS, ExtractorIB } from "./extractores.js";
 import { getDatabase, ref, set } from "firebase/database";
-import { db } from "../firebase";
-const md5 = require("md5")
+import { db } from "../firebase.js";
+import md5 from "md5"
+import data from "../fuentes/primera_entrega/CV.json" assert { type: "json" };
 
-export function arrayAJsonCV(array) {
+export async function arrayAJsonCV(array) {
   let json = {};
-  array.forEach((element) => {
-    let elem = ExtractorCV(JSON.stringify(element));
+
+  for (let element of array){
+    let elem = await ExtractorCV(JSON.stringify(element));
     json[elem.nombre] = elem;
-  });
+  }
 
   return json;
 }
 
-export function arrayAJsonEUS(array) {
+export async function arrayAJsonEUS(array) {
   let json = {};
   array.forEach((element) => {
     let elem = ExtractorEUS(JSON.stringify(element));
@@ -43,7 +45,7 @@ export async function upload(hospitales){
   }
 }
 
-const data = require("../fuentes/primera_entrega/CV.json");
+
 console.log(data);
-const array = arrayAJsonCV(data)
-upload(array)
+const datosCV = await arrayAJsonCV(data)
+upload(datosCV)
