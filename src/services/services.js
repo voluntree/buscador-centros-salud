@@ -14,7 +14,12 @@ export async function arrayAJsonCV(array) {
 
   for (let element of array){
     let elem = await ExtractorCV(JSON.stringify(element));
-    json[elem.nombre] = elem;
+    if(elem.codigo_postal != ""){
+      json[elem.nombre] = elem;
+      console.log("\n\x1b[32mEXTRACCION CORRECTA\x1b[0m")
+    } else {
+      console.log("\n\x1b[31mEXTRACCION INCORRECTA " + elem.nombre + "\x1b[0m")
+    }
   }
 
   return json;
@@ -24,7 +29,12 @@ export async function arrayAJsonEUS(array) {
   let json = {};
   for(let element of array){
     let elem = await ExtractorEUS(JSON.stringify(element));
-    json[elem.nombre] = elem;
+    if(elem.codigo_postal != ""){
+      json[elem.nombre] = elem;
+      console.log("\n\x1b[32mEXTRACCION CORRECTA\x1b[0m")
+    } else {
+      console.log("\n\x1b[31mEXTRACCION INCORRECTA " + elem.nombre + "\x1b[0m")
+    }
   };
 
   return json;
@@ -34,7 +44,12 @@ export async function arrayAJsonIB(array) {
   let json = {};
   for(let element of array){
     let elem = await ExtractorIB(JSON.stringify(element));
-    json[elem.nombre] = elem;
+    if(elem.codigo_postal != ""){
+      json[elem.nombre] = elem;
+      console.log("\n\x1b[32mEXTRACCION CORRECTA\x1b[0m")
+    } else {
+      console.log("\n\x1b[31mEXTRACCION INCORRECTA " + elem.nombre + "\x1b[0m")
+    }
   };
 
   return json;
@@ -46,6 +61,7 @@ export async function upload(hospitales){
     let hashClave = md5(clave);
     let refer = ref(db,"centros/" + hashClave)
     await set(refer,{...hospitales[clave]})
+    console.log("   - " + clave + " \x1b[32mSUBIDO CON EXITO\x1b[0m")
   }
 }
 
@@ -53,6 +69,7 @@ const datosEUS = await arrayAJsonEUS(dataEUS)
 const datosCV = await arrayAJsonCV(dataCV)
 const datosIB = await arrayAJsonIB(dataIB)
 
+console.log("\nSubiendo datos a la base de datos")
 await upload(datosEUS)
 await upload(datosCV)
 await upload(datosIB)
