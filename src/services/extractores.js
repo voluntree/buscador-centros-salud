@@ -1,3 +1,5 @@
+import { getCoordenadas, getTelefono } from "./scraper.js";
+
 function crearObjetoEsquemaGlobal(){
     var datosEG = {nombre: "",
                    tipo: "",
@@ -101,18 +103,21 @@ function definirTipoIB(tipoOrigen){
     return tipo;
 }
 
-export function ExtractorCV(datosCV) {
-    let datosEG = crearObjetoEsquemaGlobal();
+export async function ExtractorCV(datosCV) {
+    var datosEG = crearObjetoEsquemaGlobal();
     datosCV = JSON.parse(datosCV);
 
     datosEG.nombre = datosCV["Centre / Centro"]
     datosEG.tipo = definirTipoCV(datosCV["Tipus_centre / Tipo_centro"]);
     datosEG.direccion = datosCV["Adreça / Dirección"]
     //Datos generados con Selenium mediante la web
-    /*datosEG.codigo_postal =
-      datosEG.longitud =
-      datosEG.latitud =
-      datosEG.telefono??*/
+    var data = await getCoordenadas(datosCV["Adreça / Dirección"].replace("S/N",""),datosCV["Província / Provincia"] , datosCV["Municipi / Municipio"]);
+    datosEG.codigo_postal = data.codigo_postal
+    datosEG.longitud = data.longitud
+    datosEG.latitud = data.latitud
+
+    datosEG.telefono = await getTelefono(datosCV["Centre / Centro"])
+
     datosEG.descripcion = datosCV["Tipus_centre / Tipo_centro"]
     datosEG.localidad_nombre = datosCV["Municipi / Municipio"]
     datosEG.provincia_nombre = datosCV["Província / Provincia"]
@@ -137,22 +142,23 @@ export function ExtractorEUS(datosEuskadi) {
                         ++ datosEuskadi.Hospitaldereferencia
     datosEG.localidad_nombre = datosEuskadi.Municipio
     datosEG.provincia_nombre = datosEuskadi.Provincia
-    datosEG.provincia_codigo = datosEuskadi.Codigopostal
+    datosEG.provincia_codigo = datosEuskadi.Codigopostal.substring(0,2)
 
     return datosEG;
 }
 
-export function ExtractorIB(datosIB) {
+export async function ExtractorIB(datosIB) {
     let datosEG = crearObjetoEsquemaGlobal();
     datosIB = JSON.parse(datosIB);
 
     datosEG.nombre = datosIB.nom
     datosEG.tipo = definirTipoIB(datosIB.funcio)
     datosEG.direccion = datosIB.adreça
-    datosEG.codigo_postal = ""
+    var data = await getCoordenadas(datosIB.adreça, "Illes Balears", datosIB.municipi);
+    datosEG.codigo_postal = data.codigo_postal
     datosEG.longitud = datosIB.long
     datosEG.latitud = datosIB.lat
-    datosEG.telefono = ""
+    datosEG.telefono = await getTelefono(datosIB.nom)
     datosEG.descripcion = ""
     datosEG.localidad_nombre = datosIB.municipi
     datosEG.provincia_nombre = "Illes Balears"
