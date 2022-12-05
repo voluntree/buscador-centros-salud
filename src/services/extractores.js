@@ -1,4 +1,5 @@
-import { getCoordenadas, getTelefono } from "./scraper.js";
+import md5 from "md5";
+import { getCoordenadas, getDireccion, getTelefono } from "./scraper.js";
 
 function crearObjetoEsquemaGlobal(){
     var datosEG = {nombre: "",
@@ -110,9 +111,12 @@ export async function ExtractorCV(datosCV) {
     datosEG.nombre = datosCV["Centre / Centro"]
     datosEG.tipo = definirTipoCV(datosCV["Tipus_centre / Tipo_centro"]);
     datosEG.direccion = datosCV["Adreça / Dirección"]
-    //Datos generados con Selenium mediante la web
-    var data = await getCoordenadas(datosCV["Adreça / Dirección"].replace("S/N",""),datosCV["Província / Provincia"] , datosCV["Municipi / Municipio"]);
-    datosEG.codigo_postal = data.codigo_postal
+    if(datosCV["Codi_província / Código_provincia"].length == 1){
+        datosEG.codigo_postal = "0" + datosCV["Codi_província / Código_provincia"] + datosCV["Codi_municipi / Código_municipio"]
+    }else{
+        datosEG.codigo_postal = datosCV["Codi_província / Código_provincia"]  + datosCV["Codi_municipi / Código_municipio"]
+    }
+    var data = await getCoordenadas(datosEG.codigo_postal,datosCV["Província / Provincia"] , datosCV["Municipi / Municipio"]);
     datosEG.longitud = data.longitud
     datosEG.latitud = data.latitud
 
@@ -120,13 +124,14 @@ export async function ExtractorCV(datosCV) {
 
     datosEG.descripcion = datosCV["Tipus_centre / Tipo_centro"]
     datosEG.localidad_nombre = datosCV["Municipi / Municipio"]
+    datosEG.localidad_codigo = datosCV["Codi_municipi / Código_municipio"]
     datosEG.provincia_nombre = datosCV["Província / Provincia"]
     datosEG.provincia_codigo = datosCV["Codi_província / Código_provincia"]
 
     return datosEG;
 }
 
-export function ExtractorEUS(datosEuskadi) {
+export async function ExtractorEUS(datosEuskadi) {
     let datosEG = crearObjetoEsquemaGlobal();
     datosEuskadi = JSON.parse(datosEuskadi);
 
@@ -141,6 +146,7 @@ export function ExtractorEUS(datosEuskadi) {
                         ++ datosEuskadi.Horarioespecial
                         ++ datosEuskadi.Hospitaldereferencia
     datosEG.localidad_nombre = datosEuskadi.Municipio
+    datosEG.localidad_codigo = md5(datosEuskadi.Municipio+datosEuskadi.Provincia)
     datosEG.provincia_nombre = datosEuskadi.Provincia
     datosEG.provincia_codigo = datosEuskadi.Codigopostal.substring(0,2)
 
@@ -153,14 +159,15 @@ export async function ExtractorIB(datosIB) {
 
     datosEG.nombre = datosIB.nom
     datosEG.tipo = definirTipoIB(datosIB.funcio)
-    datosEG.direccion = datosIB.adreça
-    var data = await getCoordenadas(datosIB.adreça, "Illes Balears", datosIB.municipi);
-    datosEG.codigo_postal = data.codigo_postal
+    datosEG.direccion = datosIB.adreca
+    var data = await getDireccion(datosIB.lat, datosIB.long);
+    datosEG.codigo_postal = data
     datosEG.longitud = datosIB.long
     datosEG.latitud = datosIB.lat
     datosEG.telefono = await getTelefono(datosIB.nom)
     datosEG.descripcion = ""
     datosEG.localidad_nombre = datosIB.municipi
+    datosEG.localidad_codigo = md5(datosIB.municipi+"Illes Balears")
     datosEG.provincia_nombre = "Illes Balears"
     datosEG.provincia_codigo = "07"
 

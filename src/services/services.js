@@ -2,7 +2,12 @@ import { ExtractorCV, ExtractorEUS, ExtractorIB } from "./extractores.js";
 import { getDatabase, ref, set } from "firebase/database";
 import { db } from "../firebase.js";
 import md5 from "md5"
-import data from "../fuentes/primera_entrega/CV.json" assert { type: "json" };
+import dataCV from "../fuentes/primera_entrega/CV.json" assert { type: "json" };
+import dataIB from "../fuentes/primera_entrega/IB.json" assert {type: "json"};
+import dataEUS from "../fuentes/primera_entrega/EUS.json" assert {type: "json"};
+import { exit } from "process";
+
+
 
 export async function arrayAJsonCV(array) {
   let json = {};
@@ -17,36 +22,39 @@ export async function arrayAJsonCV(array) {
 
 export async function arrayAJsonEUS(array) {
   let json = {};
-  array.forEach((element) => {
-    let elem = ExtractorEUS(JSON.stringify(element));
+  for(let element of array){
+    let elem = await ExtractorEUS(JSON.stringify(element));
     json[elem.nombre] = elem;
-  });
+  };
 
   return json;
 }
 
-export function arrayAJsonIB(array) {
+export async function arrayAJsonIB(array) {
   let json = {};
-  array.forEach((element) => {
-    let elem = ExtractorIB(JSON.stringify(element));
+  for(let element of array){
+    let elem = await ExtractorIB(JSON.stringify(element));
     json[elem.nombre] = elem;
-  });
+  };
 
   return json;
 }
 
 export async function upload(hospitales){
   let claves = Object.keys(hospitales);
-  for (let i = 0; i < claves.length; i++){
-    let clave = claves[i];
+  for (let clave of claves){
     let hashClave = md5(clave);
     let refer = ref(db,"centros/" + hashClave)
-    set(refer,{...hospitales[clave]})
+    await set(refer,{...hospitales[clave]})
   }
 }
 
+const datosEUS = await arrayAJsonEUS(dataEUS)
+const datosCV = await arrayAJsonCV(dataCV)
+const datosIB = await arrayAJsonIB(dataIB)
 
-console.log(data);
-const datosCV = await arrayAJsonCV(data)
-console.log(datosCV)
-upload(datosCV)
+await upload(datosEUS)
+await upload(datosCV)
+await upload(datosIB)
+console.log("Datos subidos con exito")
+exit()
