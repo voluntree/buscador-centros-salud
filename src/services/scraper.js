@@ -1,3 +1,6 @@
+
+const webdriver = require('selenium-webdriver');
+const chrome = require('selenium-webdriver/chrome');
 import { By } from "selenium-webdriver"
 import webdriver from "selenium-webdriver"
 import chrome from "selenium-webdriver/chrome.js"
