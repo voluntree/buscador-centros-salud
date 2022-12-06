@@ -65,13 +65,30 @@ export async function upload(hospitales){
   }
 }
 
+let inicioExtraccion = new Date()
+console.log("\nINICIANDO EXTRACCIÓN DE DATOS")
+console.log("\nEXTRAYENDO DATOS DE EUSKADI")
 const datosEUS = await arrayAJsonEUS(dataEUS)
+
+console.log("\nEXTRAYENDO DATOS DE LA COMUNIDAD VALENCIANA")
 const datosCV = await arrayAJsonCV(dataCV)
+
+console.log("\nEXTRAYENDO DATOS DE LAS ISLAS BALEARES")
 const datosIB = await arrayAJsonIB(dataIB)
 
-console.log("\nSubiendo datos a la base de datos")
+console.log("\nEXTRACCIÓN DE DATOS FINALIZADA")
+// Tiempo de extraccion en minutos, segundos y milisegundos
+let tiempoExtraccion = new Date() - inicioExtraccion
+let minutos = Math.floor(tiempoExtraccion / 60000)
+let segundos = ((tiempoExtraccion % 60000) / 1000).toFixed(0)
+let milisegundos = tiempoExtraccion % 1000
+console.log("TIEMPO DE EXTRACCIÓN: " + minutos + " minutos, " + segundos + " segundos y " + milisegundos + " milisegundos")
+
+console.log("\nSUBIENDO LOS DATOS A LA BASE DE DATOS")
 await upload(datosEUS)
 await upload(datosCV)
 await upload(datosIB)
-console.log("Datos subidos con exito")
+console.log("DATOS SUBIDOS CON ÉXITO")
+
+console.log("TIEMPO DE EXTRACCIÓN: " + minutos + " minutos, " + segundos + " segundos y " + milisegundos + " milisegundos")
 exit()
