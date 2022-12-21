@@ -17,6 +17,7 @@ export async function arrayAJsonCV(array) {
     if(elem.codigo_postal != ""){
       json[elem.nombre] = elem;
       console.log("\n\x1b[32mEXTRACCION CORRECTA\x1b[0m")
+      await upload(elem)
     } else {
       console.log("\n\x1b[31mEXTRACCION INCORRECTA " + elem.nombre + "\x1b[0m")
     }
@@ -32,6 +33,7 @@ export async function arrayAJsonEUS(array) {
     if(elem.codigo_postal != ""){
       json[elem.nombre] = elem;
       console.log("\n\x1b[32mEXTRACCION CORRECTA\x1b[0m")
+      await upload(elem)
     } else {
       console.log("\n\x1b[31mEXTRACCION INCORRECTA " + elem.nombre + "\x1b[0m")
     }
@@ -47,6 +49,7 @@ export async function arrayAJsonIB(array) {
     if(elem.codigo_postal != ""){
       json[elem.nombre] = elem;
       console.log("\n\x1b[32mEXTRACCION CORRECTA\x1b[0m")
+      await upload(elem)
     } else {
       console.log("\n\x1b[31mEXTRACCION INCORRECTA " + elem.nombre + "\x1b[0m")
     }
@@ -55,14 +58,11 @@ export async function arrayAJsonIB(array) {
   return json;
 }
 
-export async function upload(hospitales){
-  let claves = Object.keys(hospitales);
-  for (let clave of claves){
-    let hashClave = md5(clave);
+export async function upload(objeto){
+    let hashClave = md5(objeto.nombre);
     let refer = ref(db,"centros/" + hashClave)
-    await set(refer,{...hospitales[clave]})
-    console.log("   - " + clave + " \x1b[32mSUBIDO CON EXITO\x1b[0m")
-  }
+    await set(refer,{...objeto})
+    console.log("   - " + objeto.nombre + " \x1b[32mSUBIDO CON EXITO\x1b[0m")
 }
 
 export async function getCodigoLocalidad(codigo, nombre, cod_prov, nombre_prov){
@@ -117,13 +117,5 @@ let tiempoExtraccion = new Date() - inicioExtraccion
 let minutos = Math.floor(tiempoExtraccion / 60000)
 let segundos = ((tiempoExtraccion % 60000) / 1000).toFixed(0)
 let milisegundos = tiempoExtraccion % 1000
-console.log("TIEMPO DE EXTRACCIÓN: " + minutos + " minutos, " + segundos + " segundos y " + milisegundos + " milisegundos")
-
-console.log("\nSUBIENDO LOS DATOS A LA BASE DE DATOS")
-await upload(datosEUS)
-await upload(datosCV)
-await upload(datosIB)
-console.log("DATOS SUBIDOS CON ÉXITO")
-
 console.log("TIEMPO DE EXTRACCIÓN: " + minutos + " minutos, " + segundos + " segundos y " + milisegundos + " milisegundos")
 exit()
