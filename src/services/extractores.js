@@ -1,5 +1,6 @@
 import md5 from "md5";
 import { getCoordenadas, getDireccion, getTelefono } from "./scraper.js";
+import { getCodigoLocalidad } from "./services.js";
 
 function crearObjetoEsquemaGlobal(){
     var datosEG = {nombre: "",
@@ -10,10 +11,7 @@ function crearObjetoEsquemaGlobal(){
                    latitud: 0,
                    telefono: 0,
                    descripcion: "",
-                   localidad_nombre: "",
-                   localidad_codigo: "",
-                   provincia_nombre: "",
-                   provincia_codigo: ""
+                   en_localidad: "",
                    }
     return datosEG;
 }
@@ -81,7 +79,7 @@ function definirTipoEuskadi(tipoOrigen){
         case "Consultorio":
             tipo = "Centro de Salud"
             break;
-        default: tipo = ""
+        default: tipo = "Otros"
     }
 
     return tipo;
@@ -145,17 +143,9 @@ export async function ExtractorCV(datosCV) {
     datosEG.descripcion = datosCV["Tipus_centre / Tipo_centro"]
     console.log("   - Descripción: " + datosEG.descripcion + "\x1b[32m COMPLETADO\x1b[0m")
 
-    datosEG.localidad_nombre = datosCV["Municipi / Municipio"]
-    console.log("   - Municipio: " + datosEG.localidad_nombre + "\x1b[32m COMPLETADO\x1b[0m")
-
-    datosEG.localidad_codigo = datosCV["Codi_municipi / Código_municipio"]
-    console.log("   - Código municipio: " + datosEG.localidad_codigo + "\x1b[32m COMPLETADO\x1b[0m")
-    
-    datosEG.provincia_nombre = datosCV["Província / Provincia"]
-    console.log("   - Provincia: " + datosEG.provincia_nombre + "\x1b[32m COMPLETADO\x1b[0m")
-
-    datosEG.provincia_codigo = datosCV["Codi_província / Código_provincia"]
-    console.log("   - Código provincia: " + datosEG.provincia_codigo + "\x1b[32m COMPLETADO\x1b[0m")
+    var cod_localidad = await getCodigoLocalidad(md5(datosCV["Municipi / Municipio"]+datosCV["Província / Provincia"]), datosCV["Municipi / Municipio"], datosCV["Codi_província / Código_provincia"], datosCV["Província / Provincia"]);
+    datosEG.en_localidad = cod_localidad;
+    console.log("   - En localidad: " + datosEG.en_localidad + "\x1b[32m COMPLETADO\x1b[0m")
 
     return datosEG;
 }
@@ -191,17 +181,9 @@ export async function ExtractorEUS(datosEuskadi) {
                         ++ datosEuskadi.Hospitaldereferencia
     console.log("   - Descripción: " + datosEG.descripcion + "\x1b[32m COMPLETADO\x1b[0m")  
 
-    datosEG.localidad_nombre = datosEuskadi.Municipio
-    console.log("   - Municipio: " + datosEG.localidad_nombre + "\x1b[32m COMPLETADO\x1b[0m")
-
-    datosEG.localidad_codigo = md5(datosEuskadi.Municipio+datosEuskadi.Provincia)
-    console.log("   - Código municipio: " + datosEG.localidad_codigo + "\x1b[32m COMPLETADO\x1b[0m")
-
-    datosEG.provincia_nombre = datosEuskadi.Provincia
-    console.log("   - Provincia: " + datosEG.provincia_nombre + "\x1b[32m COMPLETADO\x1b[0m")
-
-    datosEG.provincia_codigo = datosEuskadi.Codigopostal.substring(0,2)
-    console.log("   - Código provincia: " + datosEG.provincia_codigo + "\x1b[32m COMPLETADO\x1b[0m")
+    var cod_localidad = await getCodigoLocalidad(md5(datosEuskadi.Municipio+datosEuskadi.Provincia), datosEuskadi.Municipio , datosEuskadi.Codigopostal.substring(0,2), datosEuskadi.Provincia);
+    datosEG.en_localidad = cod_localidad;
+    console.log("   - En localidad: " + datosEG.en_localidad + "\x1b[32m COMPLETADO\x1b[0m")
 
     return datosEG;
 }
@@ -245,17 +227,9 @@ export async function ExtractorIB(datosIB) {
     datosEG.descripcion = ""
     console.log("   - Descripción: " + datosEG.descripcion + "\x1b[32m COMPLETADO\x1b[0m") 
 
-    datosEG.localidad_nombre = datosIB.municipi
-    console.log("   - Municipio: " + datosEG.localidad_nombre + "\x1b[32m COMPLETADO\x1b[0m")
-
-    datosEG.localidad_codigo = md5(datosIB.municipi+"Illes Balears")
-    console.log("   - Código municipio: " + datosEG.localidad_codigo + "\x1b[32m COMPLETADO\x1b[0m")
-
-    datosEG.provincia_nombre = "Illes Balears"
-    console.log("   - Provincia: " + datosEG.provincia_nombre + "\x1b[32m COMPLETADO\x1b[0m")
-    
-    datosEG.provincia_codigo = "07"
-    console.log("   - Código provincia: " + datosEG.provincia_codigo + "\x1b[32m COMPLETADO\x1b[0m")
+    var cod_localidad = await getCodigoLocalidad(md5(datosIB.municipi+"Illes Balears"), datosIB.municipi , "07" , "Illes Balears");
+    datosEG.en_localidad = cod_localidad;
+    console.log("   - En localidad: " + datosEG.en_localidad + "\x1b[32m COMPLETADO\x1b[0m")
 
     return datosEG;
 }

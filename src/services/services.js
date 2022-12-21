@@ -1,5 +1,5 @@
 import { ExtractorCV, ExtractorEUS, ExtractorIB } from "./extractores.js";
-import { getDatabase, ref, set } from "firebase/database";
+import { getDatabase, ref, set, get, child} from "firebase/database";
 import { db } from "../firebase.js";
 import md5 from "md5"
 import dataCV from "../fuentes/primera_entrega/CV.json" assert { type: "json" };
@@ -63,6 +63,41 @@ export async function upload(hospitales){
     await set(refer,{...hospitales[clave]})
     console.log("   - " + clave + " \x1b[32mSUBIDO CON EXITO\x1b[0m")
   }
+}
+
+export async function getCodigoLocalidad(codigo, nombre, cod_prov, nombre_prov){
+  
+  return await get(ref(db, "localidades/" + codigo + "/")).then((snapshot) => {
+    if(snapshot.exists()){
+      return snapshot.val().codigo;
+    }else{
+      let refer = ref(db, "localidades/" + codigo)
+      getCodigoProvincia(cod_prov, nombre_prov)
+
+      let localidad = {codigo: codigo,
+                       nombre: nombre,
+                       en_provincia: cod_prov}
+      
+      set(refer, {...localidad})
+      return codigo
+    }
+  });
+  
+}
+
+export async function getCodigoProvincia(codigo, nombre){
+  await get(ref(db, "provincias/" + codigo + "/")).then((snapshot) => {
+    if(snapshot.exists()){
+      return snapshot.val().codigo;
+    }else{
+      let refer = ref(db, "provincias/" + codigo)
+      let provincia = {codigo: codigo,
+                       nombre: nombre}
+      set(refer, {...provincia})
+
+      return codigo;
+    }
+  });
 }
 
 let inicioExtraccion = new Date()
