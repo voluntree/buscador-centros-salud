@@ -1,0 +1,116 @@
+<response>
+	<row>
+		<row _id="row-vekh~tdb6.e9av" _uuid="00000000-0000-0000-E4F0-FF84B8945139" _position="0" _address="https://catalegdades.caib.cat/resource/eshv-5yai/row-vekh~tdb6.e9av">
+			<!-- the_geom: https://docs.geoserver.geo-solutions.it/edu/en/ogcapi/features/introduction.html -->
+			<the_geom>POINT (2.932945880081 39.366618658015)</the_geom>
+			<objectid>61</objectid>
+			<!-- inspire id: universal identifier from Infrastructure for Spatial Information in the European Community (INSPIRE), used across EU databases. Ver  https://www.wikidata.org/wiki/Property:P4115 -->
+			<inspireid>ES.GOIB.SUP_ActivityComplex.00895</inspireid>
+			<nom>UB Sa Ràpita</nom>
+			<funcio>UNITAT BÀSICA</funcio>
+			<long>2.9329458800000001</long>
+			<lat>39.36661866</lat>
+			<adreca>Carrer de Tintorera, 9</adreca>
+			<municipi>Campos</municipi>
+		</row>
+		<row _id="row-thg4-rtdr_xkhp" _uuid="00000000-0000-0000-2F33-276E1E889434" _position="0" _address="https://catalegdades.caib.cat/resource/eshv-5yai/row-thg4-rtdr_xkhp">
+			<the_geom>POINT (3.220994083498 39.567302244684)</the_geom>
+			<objectid>143</objectid>
+			<inspireid>ES.GOIB.SUP_ActivityComplex.00977</inspireid>
+			<nom>CS Na Camel·la</nom>
+			<funcio>CENTRE SANITARI PREVIST</funcio>
+			<long>3.2209940800000001</long>
+			<lat>39.567302249999997</lat>
+			<adreca>Carrer d'en Tià de sa Real, 1</adreca>
+			<municipi>Manacor</municipi>
+		</row>
+		<row _id="row-gvmy_srhp.vqad" _uuid="00000000-0000-0000-5067-FFCC58E354EF" _position="0" _address="https://catalegdades.caib.cat/resource/eshv-5yai/row-gvmy_srhp.vqad">
+			<the_geom>POINT (3.125081748511 39.854940392136)</the_geom>
+			<objectid>12</objectid>
+			<inspireid>ES.GOIB.SUP_ActivityComplex.00846</inspireid>
+			<nom>CS SAFRÀ- Alcúdia</nom>
+			<funcio>CENTRE SANITARI</funcio>
+			<long>3.1250817500000001</long>
+			<lat>39.854940390000003</lat>
+			<adreca>Carrer de Formentera, 3</adreca>
+			<municipi>Alcúdia</municipi>
+		</row>
+		<row _id="row-utxa_t99i.njsn" _uuid="00000000-0000-0000-BA84-88EC545D330D" _position="0" _address="https://catalegdades.caib.cat/resource/eshv-5yai/row-utxa_t99i.njsn">
+			<the_geom>POINT (2.481029168676 39.488657095857)</the_geom>
+			<objectid>49</objectid>
+			<inspireid>ES.GOIB.SUP_ActivityComplex.00883</inspireid>
+			<nom>UB El Toro</nom>
+			<funcio>UNITAT BÀSICA</funcio>
+			<long>2.4810291700000002</long>
+			<lat>39.488657099999998</lat>
+			<adreca>Gran Via, 29</adreca>
+			<municipi>Calvià</municipi>
+		</row>
+		<row _id="row-3rnx_7j6g_enua" _uuid="00000000-0000-0000-25A6-51197740F897" _position="0" _address="https://catalegdades.caib.cat/resource/eshv-5yai/row-3rnx_7j6g_enua">
+			<the_geom>POINT (3.057533581553 39.339594236788)</the_geom>
+			<objectid>64</objectid>
+			<inspireid>ES.GOIB.SUP_ActivityComplex.00898</inspireid>
+			<nom>UB Ses Salines</nom>
+			<funcio>UNITAT BÀSICA</funcio>
+			<long>3.0575335799999999</long>
+			<lat>39.339594239999997</lat>
+			<adreca>Carrer de na Bergues, 30</adreca>
+			<municipi>Ses Salines</municipi>
+		</row>
+		<row _id="row-vv8r_6tpu_istd" _uuid="00000000-0000-0000-67A4-B3F1CBCCEC2E" _position="0" _address="https://catalegdades.caib.cat/resource/eshv-5yai/row-vv8r_6tpu_istd">
+			<the_geom>POINT (4.011959130319 39.984139777418)</the_geom>
+			<objectid>2</objectid>
+			<inspireid>ES.GOIB.SUP_ActivityComplex.00836</inspireid>
+			<nom>CS Ferreies</nom>
+			<funcio>CENTRE SANITARI</funcio>
+			<long>4.0119591300000002</long>
+			<lat>39.98413978</lat>
+			<adreca>Carrer del bisbe Sever, 3</adreca>
+			<municipi>Ferreries</municipi>
+		</row>
+		<row _id="row-za8e_m97d.z8ew" _uuid="00000000-0000-0000-AF7A-2247B1A29AD5" _position="0" _address="https://catalegdades.caib.cat/resource/eshv-5yai/row-za8e_m97d.z8ew">
+			<the_geom>POINT (4.131979970754 40.056582966122)</the_geom>
+			<objectid>41</objectid>
+			<inspireid>ES.GOIB.SUP_ActivityComplex.00875</inspireid>
+			<nom>UB Fornells</nom>
+			<funcio>UNITAT BÀSICA</funcio>
+			<long>4.1319799699999997</long>
+			<lat>40.056582970000001</lat>
+			<adreca>Carrer Ses Escoles, 6</adreca>
+			<municipi>Es Mercadal</municipi>
+		</row>
+		<row _id="row-gdw3.97n9~a98m" _uuid="00000000-0000-0000-8D75-8BE094203FA2" _position="0" _address="https://catalegdades.caib.cat/resource/eshv-5yai/row-gdw3.97n9~a98m">
+			<the_geom>POINT (2.857940655108 39.641333228111)</the_geom>
+			<objectid>104</objectid>
+			<inspireid>ES.GOIB.SUP_ActivityComplex.00938</inspireid>
+			<nom>UBS Biniali</nom>
+			<funcio>UNITAT BÀSICA</funcio>
+			<long>2.8579406600000001</long>
+			<lat>39.641333230000001</lat>
+			<adreca>Carrer des Torrent 6</adreca>
+			<municipi>Sencelles</municipi>
+		</row>
+		<row _id="row-rwu4_9ehg-wgfd" _uuid="00000000-0000-0000-AA2E-3DCAD6ED8C52" _position="0" _address="https://catalegdades.caib.cat/resource/eshv-5yai/row-rwu4_9ehg-wgfd">
+			<the_geom>POINT (2.660880317325 39.581899859248)</the_geom>
+			<objectid>129</objectid>
+			<inspireid>ES.GOIB.SUP_ActivityComplex.00963</inspireid>
+			<nom>CS ARQUITECTE BENNÀSSAR</nom>
+			<funcio>CENTRE SANITARI</funcio>
+			<long>2.66088032</long>
+			<lat>39.58189986</lat>
+			<adreca>Carrer de Gaspar Bennàssar, 9</adreca>
+			<municipi>Palma</municipi>
+		</row>
+		<row _id="row-5rep_8puw_98xi" _uuid="00000000-0000-0000-8AAB-1138A6103E3C" _position="0" _address="https://catalegdades.caib.cat/resource/eshv-5yai/row-5rep_8puw_98xi">
+			<the_geom>POINT (1.433637871361 38.928648555978)</the_geom>
+			<objectid>75</objectid>
+			<inspireid>ES.GOIB.SUP_ActivityComplex.00909</inspireid>
+			<nom>UB de Puig d'en Valls</nom>
+			<funcio>UNITAT BÀSICA</funcio>
+			<long>1.4336378700000001</long>
+			<lat>38.928648559999999</lat>
+			<adreca>Carrer del torrent de ses Dones, 2</adreca>
+			<municipi>Santa Eulària des Riu</municipi>
+		</row>
+	</row>
+</response>
