@@ -42,7 +42,7 @@ app.get("/busqueda", (req, res) => {
         centrosFiltrados = [... new Set([...centrosFiltrados, ...centros.filter(centro => centro.codigo_postal == parseInt(cod_postal))])]
     }
 
-    if(tipo != "" && tipo != 0 && tipo.toLowerCase() != "todos"){
+    if(tipo != "" && tipo != "todos"){
         centrosFiltrados = centrosFiltrados.filter(centro => centro.tipo.toLowerCase() == tipo.toLowerCase())
     }
 
