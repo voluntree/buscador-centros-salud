@@ -1,5 +1,5 @@
 import { ExtractorCV, ExtractorEUS, ExtractorIB } from "./extractores.js";
-import { getDatabase, ref, set, get, child} from "firebase/database";
+import { getDatabase, ref, set, get, child, onValue} from "firebase/database";
 import { db } from "../firebase.js";
 import md5 from "md5"
 import dataCV from "../fuentes/primera_entrega/CV.json" assert { type: "json" };
@@ -100,7 +100,37 @@ export async function getCodigoProvincia(codigo, nombre){
   });
 }
 
-let inicioExtraccion = new Date()
+export async function getCentros(){
+  return new Promise(function (resolve, reject) {
+    const refCentros = ref(db, "centros/")
+  
+    onValue(refCentros, (snapshot) => {
+      resolve(snapshot.val());
+    })
+  })
+}
+
+export async function getLocalidades(){
+  return new Promise(function (resolve, reject) {
+    const refCentros = ref(db, "localidades/")
+  
+    onValue(refCentros, (snapshot) => {
+      resolve(snapshot.val());
+    })
+  })
+}
+
+export async function getProvincias(){
+  return new Promise(function (resolve, reject) {
+    const refCentros = ref(db, "provincias/")
+  
+    onValue(refCentros, (snapshot) => {
+      resolve(snapshot.val());
+    })
+  })
+}
+
+/*let inicioExtraccion = new Date()
 console.log("\nINICIANDO EXTRACCIÓN DE DATOS")
 console.log("\nEXTRAYENDO DATOS DE EUSKADI")
 const datosEUS = await arrayAJsonEUS(dataEUS)
@@ -118,4 +148,4 @@ let minutos = Math.floor(tiempoExtraccion / 60000)
 let segundos = ((tiempoExtraccion % 60000) / 1000).toFixed(0)
 let milisegundos = tiempoExtraccion % 1000
 console.log("TIEMPO DE EXTRACCIÓN: " + minutos + " minutos, " + segundos + " segundos y " + milisegundos + " milisegundos")
-exit()
+exit()*/
