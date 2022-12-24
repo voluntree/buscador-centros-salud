@@ -5,7 +5,7 @@ class BuscadorTextInput extends React.Component {
         return (
             <div className='BuscadorTextInput'>
                 <label>{this.props.label}</label>
-                <input type={"text"} placeholder={this.props.placeholder}></input>
+                <input type={"text"} placeholder={this.props.placeholder} value= {this.props.value} onChange={value => this.props.onChange(value.target.value)}></input>
             </div>
         )
     }

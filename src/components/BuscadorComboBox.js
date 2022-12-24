@@ -1,12 +1,12 @@
 import React from 'react'
 
-class BuscadorComboBox extends React.Component {
-    render () {
+const BuscadorComboBox = (props) => {
+    
         return (
             <div className='BuscadorTextInput'>
-                <label>{this.props.label}</label>
+                <label>{props.label}</label>
                 <div>
-                <select className='combobox'>
+                <select className='combobox' onChange={value => props.onChange(value.target.value)}>
                     <option value="todos">Todos</option>
                     <option value="hospital">Hospital</option>
                     <option value="centro de salud">Centro de Salud</option>
@@ -15,7 +15,7 @@ class BuscadorComboBox extends React.Component {
                 </div>
             </div>
         )
-    }
+    
 }
 
 export default BuscadorComboBox

@@ -46,6 +46,28 @@ app.get("/busqueda", (req, res) => {
         centrosFiltrados = centrosFiltrados.filter(centro => centro.tipo.toLowerCase() == tipo.toLowerCase())
     }
 
+    centrosFiltrados = centrosFiltrados.map(centro => obtenerLocalidadProvincia(centro, localidades, provincias)) 
+    
     res.header("Content-Type", "application/json")
     res.send(JSON.stringify(centrosFiltrados, null, 4))
 })
+
+function obtenerLocalidadProvincia(centro, localidades, provincias){
+    let centroCompleto = {codigo_postal: centro.codigo_postal,
+                          descripcion: centro.descripcion,
+                          direccion: centro.direccion,
+                          localidad: "",
+                          latitud: centro.latitud,
+                          longitud: centro.longitud,
+                          nombre: centro.nombre,
+                          telefono: centro.telefono,
+                          tipo: centro.tipo}
+    let localidad = localidades.find(val => val.codigo === centro.en_localidad)
+    let provincia = provincias.find(val => val.codigo === localidad.en_provincia)
+
+    var localidadObjeto = {nombre: localidad.nombre,
+                           provincia: provincia}
+    centroCompleto.localidad = localidadObjeto
+
+    return centroCompleto                           
+}

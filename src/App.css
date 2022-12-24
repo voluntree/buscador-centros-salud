@@ -4,6 +4,11 @@
   outline: none;
 }
 
+body{
+  background-color: #404258;
+  padding-bottom: 2rem;
+}
+
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
   color: rgb(202, 202, 202);
   opacity: 1; /* Firefox */
@@ -14,19 +19,19 @@
   flex-direction: column;
   justify-items: center;
   align-items: center;
-  height: 100vh;
   background-color: #404258;
 }
 
 .BuscadorContainer {
   background-color: #474E68;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: fit-content;
   height: fit-content;
   padding: 1rem 1rem;
   border-radius: 15px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  align-items: flex-end;
 }
 
 .InputContainer{
@@ -41,8 +46,8 @@
 }
 
 button {
-  height: 30px;
-  width: 80px;
+  height: 32px;
+  width: 100px;
   border-radius: 8px;
   margin-left: 5px;
   background: #50577A;
@@ -102,4 +107,31 @@ button:hover {
   background-color: #6B728E;
 }
 
+.responsive-table{
+  width: 90%;
+  overflow: auto;
+  margin: 20px 0;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+table {
+  width: min-content;
+  height: fit-content;
+	border-collapse: collapse;
+	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+tr,
+th,
+td {
+  white-space: nowrap;
+  text-overflow: clip;
+	background-color: #474E68;
+	color: #fff;
+  text-align: left;
+  padding: 5px;
+  max-width: 500px;
+  overflow: hidden;
+}
 
