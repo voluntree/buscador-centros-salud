@@ -127,10 +127,10 @@ export async function ExtractorCV(datosCV) {
         console.log("   - Código postal: " + datosEG.codigo_postal + "\x1b[31m ERROR\x1b[0m")
     }
 
-    datosEG.longitud = data.longitud
+    datosEG.longitud = parseFloat(data.longitud)
     console.log("   - Longitud: " + datosEG.longitud + "\x1b[32m COMPLETADO\x1b[0m")
 
-    datosEG.latitud = data.latitud
+    datosEG.latitud = parseFloat(data.latitud)
     console.log("   - Latitud: " + datosEG.latitud + "\x1b[32m COMPLETADO\x1b[0m")
 
     datosEG.telefono = await getTelefono(datosCV["Centre / Centro"])
@@ -167,10 +167,10 @@ export async function ExtractorEUS(datosEuskadi) {
     datosEG.codigo_postal = datosEuskadi.Codigopostal
     console.log("   - Código postal: " + datosEG.codigo_postal + "\x1b[32m COMPLETADO\x1b[0m")
 
-    datosEG.longitud = datosEuskadi.LATWGS84
+    datosEG.longitud = parseFloat(datosEuskadi.LONWGS84)
     console.log("   - Longitud: " + datosEG.longitud + "\x1b[32m COMPLETADO\x1b[0m")
     
-    datosEG.latitud = datosEuskadi.LONWGS84
+    datosEG.latitud = parseFloat(datosEuskadi.LATWGS84)
     console.log("   - Latitud: " + datosEG.latitud + "\x1b[32m COMPLETADO\x1b[0m")
 
     datosEG.telefono = datosEuskadi.Telefono 

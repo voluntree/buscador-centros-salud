@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import BuscadorComboBox from "./components/BuscadorComboBox.js";
 import BuscadorTextInput from "./components/BuscadorTextInput.js";
-import md5 from "md5"
+import md5 from "md5";
+import MapaCentros from "./components/MapaCentros.js";
 
 
 function App() {
@@ -88,6 +89,9 @@ function App() {
           <button onClick={getCentros}>Buscar</button>
           <button onClick={limpiarCampos}>Cancelar</button>
         </div>
+      </div>
+      <div className="map-container">
+        <MapaCentros centros = {centros}></MapaCentros>
       </div>
       <div className="responsive-table">
       {listaCentros()}
