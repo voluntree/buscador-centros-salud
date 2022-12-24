@@ -21,7 +21,7 @@ app.get("/busqueda", (req, res) => {
     const cod_postal = req.query.cod_postal
     const tipo = req.query.tipo
     
-    let centrosFiltrados = centros
+    let centrosFiltrados = []
     
     if(localidad != ""){
         centrosFiltrados = centros.filter(centro => { 
@@ -39,13 +39,19 @@ app.get("/busqueda", (req, res) => {
     }
     
     if(cod_postal != ""){
-        centrosFiltrados = [... new Set([...centrosFiltrados, ...centros.filter(centro => centro.codigo_postal == parseInt(cod_postal))])]
+        centrosFiltrados = [... new Set([...centrosFiltrados, ...centros.filter(centro => centro.codigo_postal.startsWith(parseInt(cod_postal)))])]
     }
 
     if(tipo != "" && tipo != "todos"){
+        if(centrosFiltrados.length === 0 && localidad == "" && provincia == "" && cod_postal == ""){
+            centrosFiltrados = centros
+        }
         centrosFiltrados = centrosFiltrados.filter(centro => centro.tipo.toLowerCase() == tipo.toLowerCase())
     }
 
+    if(centrosFiltrados.length === 0 && localidad == "" && provincia == "" && cod_postal == "" && (tipo == "todos" || tipo == "")){
+        centrosFiltrados = centros
+    }
     centrosFiltrados = centrosFiltrados.map(centro => obtenerLocalidadProvincia(centro, localidades, provincias)) 
     
     res.header("Content-Type", "application/json")

@@ -111,7 +111,6 @@ button:hover {
   width: 90%;
   overflow: auto;
   margin: 20px 0;
-  border-radius: 15px;
   justify-content: center;
   align-items: center;
 }
@@ -121,17 +120,60 @@ table {
   height: fit-content;
 	border-collapse: collapse;
 	box-shadow: 0 0 20px rgba(0,0,0,0.1);
+  background-color: #474E68;
+  border-radius: 15px;
 }
-tr,
+
 th,
 td {
-  white-space: nowrap;
-  text-overflow: clip;
-	background-color: #474E68;
 	color: #fff;
   text-align: left;
   padding: 5px;
-  max-width: 500px;
+  min-width: 575px;
   overflow: hidden;
 }
 
+.t-max {
+  white-space: nowrap;
+  min-width: max-content;
+  width: max-content;
+  max-width: max-content;
+  margin: 0 5px;
+}
+
+
+
+tr {
+  margin-bottom: 20px;
+}
+
+tr:nth-child(even){
+  background-color: #50577A;
+}
+
+tr:hover{
+  background-color: #6B728E;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #474E68; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #6B728E; 
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #50577A; 
+  border-radius: 10px;
+}

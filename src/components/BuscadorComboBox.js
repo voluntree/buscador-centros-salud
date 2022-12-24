@@ -6,7 +6,7 @@ const BuscadorComboBox = (props) => {
             <div className='BuscadorTextInput'>
                 <label>{props.label}</label>
                 <div>
-                <select className='combobox' onChange={value => props.onChange(value.target.value)}>
+                <select className='combobox' onChange={value => props.onChange(value.target.value)} value = {props.value}>
                     <option value="todos">Todos</option>
                     <option value="hospital">Hospital</option>
                     <option value="centro de salud">Centro de Salud</option>
