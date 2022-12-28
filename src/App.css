@@ -184,3 +184,8 @@ tr:hover{
   overflow: hidden;
   border-radius: 15px;
 }
+
+.infowindow{
+  display: flex;
+  flex-direction: column;
+}

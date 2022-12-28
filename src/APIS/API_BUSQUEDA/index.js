@@ -1,12 +1,20 @@
 import express from "express";
 import cors from "cors"
 import { getCentros, getLocalidades, getProvincias } from "../../services/services.js";
+import { onValue, ref } from "firebase/database";
+import { db } from "../../firebase.js";
 
 const PORT = process.env.PORT || 3004
 const app = express();
-var centros = Object.values(await getCentros())
-var localidades = Object.values(await getLocalidades())
-var provincias = Object.values(await getProvincias())
+const refCentros = ref(db, "centros/")
+const refLocalidades = ref(db, "localidades/")
+const refProvincias = ref(db, "provincias/")
+    
+var centros = onValue(refCentros, (snapshot) => centros = Object.values(snapshot.val()))
+
+var localidades = onValue(refLocalidades, (snapshot) => localidades = Object.values(snapshot.val()))
+
+var provincias = onValue(refProvincias, (snapshot) => provincias = Object.values(snapshot.val()))
 
 app.use(cors())
 
