@@ -1,30 +1,28 @@
 import React, { useState } from "react";
 import "./PaginaCarga.css";
 
-
 const PaginaCarga = () => {
   const [baleares, setbaleares] = useState(false);
   const [euskadi, seteuskadi] = useState(false);
   const [comunidad, setcomunidad] = useState(false);
   const [todos, settodos] = useState(false);
 
-  
+  const [mensaje, setMensaje] = useState("");
+
   const handleCargar = () => {
     if (todos == false) {
-      fetch(`http://127.0.0.1:3000/carga?baleares=${baleares}
+      fetch(`http://127.0.0.1:3005/carga?baleares=${baleares}
         &euskadi=${euskadi}&comunidad=${comunidad}`).then((res) => {
-            res.json().then((jsonObject) => {
-                
-            })
-        })
-    }
-    else{
-       fetch(`http://127.0.0.1:3000/carga?baleares=true
+        res.json().then(setMensaje(res));
+      });
+    } else {
+      fetch(`http://127.0.0.1:3005/carga?baleares=true
         &euskadi=true&comunidad=true`).then((res) => {
-
-        })
+        res.json().then(setMensaje(res));
+      });
     }
   };
+
   const handleBorrar = () => {};
 
   return (
@@ -42,9 +40,9 @@ const PaginaCarga = () => {
               value="Seleccionar Todos"
               onClick={() => {
                 settodos(!todos);
-                setbaleares(false)
-                setcomunidad(false)
-                seteuskadi(false)
+                setbaleares(false);
+                setcomunidad(false);
+                seteuskadi(false);
               }}
               checked={todos}
             />
@@ -118,6 +116,7 @@ const PaginaCarga = () => {
           name="datos-cargados"
           rows="30"
           cols="100"
+          value={mensaje}
         />
       </div>
     </div>

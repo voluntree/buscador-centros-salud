@@ -22,19 +22,11 @@ app.listen(PORT, () => {
   http://localhost:PORT/busqueda
 */
 app.get("/centros/ib", (req, res) => {
-    //Lee el archivo IB.xml
-    fs.readFile("IB.xml", "utf-8", function (err, data) {
+    fs.readFile("Baleares.xml", "utf-8", function (err, data) {
+      console.log(data);
+      var array = xmlToJson(data);
 
-        //Ejecuta el metodo xmlToJson y obtiene los datos del xml en formato JSON
-        var array = xmlToJson(data)
-        
-        //Se declara en el header el tipo del contenido. JSON en este caso.
-        res.header("Content-Type", "application/json")
-
-        /*
-        Se envia el resultado de la peticion en formato JSON. 
-        Se envian los datos de la variable array.
-        */
-        res.send(JSON.stringify(array, null, 4))
-    })
+      res.header("Content-Type", "application/json");
+      res.send(JSON.stringify(array, null, 4));
+    });
 })

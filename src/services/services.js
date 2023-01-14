@@ -5,54 +5,47 @@ import { db } from "../firebase.js";
 import md5 from "md5"
 
 export async function arrayAJsonCV(array) {
-  //Se crea un objeto vacio
-  let json = {};
-
-  //Para cada centro extrae los datos
-  for (let element of array){
-    let elem = await ExtractorCV(JSON.stringify(element));
-    if(elem.codigo_postal != ""){
-      json[elem.nombre] = elem;
-      console.log("\n\x1b[32mEXTRACCION CORRECTA\x1b[0m")
-      await upload(elem)
-    } else {
-      console.log("\n\x1b[31mEXTRACCION INCORRECTA " + elem.nombre + "\x1b[0m")
+    let mensaje;
+    for (let element of array) {
+      let elem = await ExtractorCV(JSON.stringify(element));
+      if (elem.codigo_postal != "") {
+        mensaje += `SUBIDO CORRECTAMENTE: ${elem.nombre} \n`;
+        await upload(elem);
+      } else {
+        mensaje += `ERROR: ${elem.nombre} \n`;
+      }
     }
-  }
-
-  return json;
+    return mensaje
 }
 
 export async function arrayAJsonEUS(array) {
-  let json = {};
-  for(let element of array){
+  
+    let mensaje;
+    for(let element of array){
     let elem = await ExtractorEUS(JSON.stringify(element));
     if(elem.codigo_postal != ""){
-      json[elem.nombre] = elem;
-      console.log("\n\x1b[32mEXTRACCION CORRECTA\x1b[0m")
+      mensaje += `SUBIDO CORRECTAMENTE: ${elem.nombre} \n`;
       await upload(elem)
     } else {
-      console.log("\n\x1b[31mEXTRACCION INCORRECTA " + elem.nombre + "\x1b[0m")
+      mensaje += `ERROR: ${elem.nombre} \n`;
     }
   };
-
-  return json;
+ return mensaje;
 }
 
 export async function arrayAJsonIB(array) {
-  let json = {};
-  for(let element of array){
-    let elem = await ExtractorIB(JSON.stringify(element));
-    if(elem.codigo_postal != ""){
-      json[elem.nombre] = elem;
-      console.log("\n\x1b[32mEXTRACCION CORRECTA\x1b[0m")
-      await upload(elem)
-    } else {
-      console.log("\n\x1b[31mEXTRACCION INCORRECTA " + elem.nombre + "\x1b[0m")
+  
+    let mensaje;
+    for (let element of array) {
+      let elem = await ExtractorIB(JSON.stringify(element));
+      if (elem.codigo_postal != "") {
+        mensaje += `SUBIDO CORRECTAMENTE: ${elem.nombre} \n`;
+        await upload(elem);
+      } else {
+        mensaje += `ERROR: ${elem.nombre} \n`;
+      }
     }
-  };
-
-  return json;
+  return mensaje
 }
 
 //Sube un centro a la base de datos
