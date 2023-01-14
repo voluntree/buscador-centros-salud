@@ -14,10 +14,11 @@ app.listen(PORT, () => {
 })
 
 app.get("/centros/ib", (req, res) => {
-    fs.readFile("IB.xml", "utf-8", function (err, data) {
-        var array = xmlToJson(data)
-        
-        res.header("Content-Type", "application/json")
-        res.send(JSON.stringify(array, null, 4))
-    })
+    fs.readFile("Baleares.xml", "utf-8", function (err, data) {
+      console.log(data);
+      var array = xmlToJson(data);
+
+      res.header("Content-Type", "application/json");
+      res.send(JSON.stringify(array, null, 4));
+    });
 })

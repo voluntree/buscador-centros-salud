@@ -28,6 +28,7 @@ export function csvToJson(data){
 }
 
 export function xmlToJson(data){
+    console.log(data);
     const obj = xml2js([data], {compact: true, 
                            spaces: 4, 
                            ignoreComment: true, 
@@ -35,6 +36,7 @@ export function xmlToJson(data){
                            textFn: removeJsonTextAttribute,
                            trim: true,
                            });
+    console.log(obj)                       
     return obj.response.row.row
 }
 

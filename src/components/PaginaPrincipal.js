@@ -21,7 +21,7 @@ useEffect(() => {
 
 function getCentros() {
   fetch(
-    `http://127.0.0.1:3000/busqueda?localidad=${localidad}&provincia=${provincia}&cod_postal=${cod_postal}&tipo=${tipo}`
+    `http://localhost:3000/busqueda?localidad=${localidad}&provincia=${provincia}&cod_postal=${cod_postal}&tipo=${tipo}`
   )
     .then((res) => res.json())
     .then((jsonObject) => {
