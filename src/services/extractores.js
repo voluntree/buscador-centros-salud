@@ -68,7 +68,7 @@ function definirTipoCV(tipoOrigen){
             break;
     }
 
-    return tipo;
+  return tipo;
 }
 
 //Convierte el tipo de origen de Euskadi al esquema global
@@ -86,7 +86,7 @@ function definirTipoEuskadi(tipoOrigen){
         default: tipo = "Otros"
     }
 
-    return tipo;
+  return tipo;
 }
 
 //Convierte el tipo de origen de Illes Balears al esquema global
@@ -104,7 +104,7 @@ function definirTipoIB(tipoOrigen){
             break;
     }
 
-    return tipo;
+  return tipo;
 }
 
 //Extractor Comunidad Valenciana
@@ -135,85 +135,143 @@ export async function ExtractorCV(datosCV) {
 }
 
 export async function ExtractorEUS(datosEuskadi) {
-    let datosEG = crearObjetoEsquemaGlobal();
-    datosEuskadi = JSON.parse(datosEuskadi);
-    console.log("\nExtrayendo datos de " + datosEuskadi.Nombre)
+  let datosEG = crearObjetoEsquemaGlobal();
+  datosEuskadi = JSON.parse(datosEuskadi);
+  console.log("\nExtrayendo datos de " + datosEuskadi.Nombre);
 
-    datosEG.nombre = datosEuskadi.Nombre
-    console.log("   - Centro: " + datosEG.nombre + "\x1b[32m COMPLETADO\x1b[0m")
+  datosEG.nombre = datosEuskadi.Nombre;
+  console.log("   - Centro: " + datosEG.nombre + "\x1b[32m COMPLETADO\x1b[0m");
 
-    datosEG.tipo = definirTipoEuskadi(datosEuskadi.Tipodecentro)
-    console.log("   - Tipo: " + datosEG.tipo + "\x1b[32m COMPLETADO\x1b[0m")
+  datosEG.tipo = definirTipoEuskadi(datosEuskadi.Tipodecentro);
+  console.log("   - Tipo: " + datosEG.tipo + "\x1b[32m COMPLETADO\x1b[0m");
 
-    datosEG.direccion = datosEuskadi.Direccion
-    console.log("   - Direccion: " + datosEG.direccion + "\x1b[32m COMPLETADO\x1b[0m")
+  datosEG.direccion = datosEuskadi.Direccion;
+  console.log(
+    "   - Direccion: " + datosEG.direccion + "\x1b[32m COMPLETADO\x1b[0m"
+  );
 
-    datosEG.codigo_postal = datosEuskadi.Codigopostal
-    console.log("   - Código postal: " + datosEG.codigo_postal + "\x1b[32m COMPLETADO\x1b[0m")
+  datosEG.codigo_postal = datosEuskadi.Codigopostal;
+  console.log(
+    "   - Código postal: " +
+      datosEG.codigo_postal +
+      "\x1b[32m COMPLETADO\x1b[0m"
+  );
 
-    datosEG.longitud = parseFloat(datosEuskadi.LONWGS84)
-    console.log("   - Longitud: " + datosEG.longitud + "\x1b[32m COMPLETADO\x1b[0m")
-    
-    datosEG.latitud = parseFloat(datosEuskadi.LATWGS84)
-    console.log("   - Latitud: " + datosEG.latitud + "\x1b[32m COMPLETADO\x1b[0m")
+  datosEG.longitud = parseFloat(datosEuskadi.LONWGS84);
+  console.log(
+    "   - Longitud: " + datosEG.longitud + "\x1b[32m COMPLETADO\x1b[0m"
+  );
 
-    datosEG.telefono = datosEuskadi.Telefono 
-    console.log("   - Telefono: " + datosEG.telefono + "\x1b[32m COMPLETADO\x1b[0m")
+  datosEG.latitud = parseFloat(datosEuskadi.LATWGS84);
+  console.log(
+    "   - Latitud: " + datosEG.latitud + "\x1b[32m COMPLETADO\x1b[0m"
+  );
 
-    datosEG.descripcion = datosEuskadi.HorarioatencionCiudadana 
-                        ++ datosEuskadi.Horarioespecial
-                        ++ datosEuskadi.Hospitaldereferencia
-    console.log("   - Descripción: " + datosEG.descripcion + "\x1b[32m COMPLETADO\x1b[0m")  
+  datosEG.telefono = datosEuskadi.Telefono;
+  console.log(
+    "   - Telefono: " + datosEG.telefono + "\x1b[32m COMPLETADO\x1b[0m"
+  );
 
-    var cod_localidad = await getCodigoLocalidad(md5(datosEuskadi.Municipio+datosEuskadi.Provincia), datosEuskadi.Municipio , datosEuskadi.Codigopostal.substring(0,2), datosEuskadi.Provincia);
-    datosEG.en_localidad = cod_localidad;
-    console.log("   - En localidad: " + datosEG.en_localidad + "\x1b[32m COMPLETADO\x1b[0m")
+  datosEG.descripcion = datosEuskadi.HorarioatencionCiudadana;
+  ++datosEuskadi.Horarioespecial;
+  ++datosEuskadi.Hospitaldereferencia;
+  console.log(
+    "   - Descripción: " + datosEG.descripcion + "\x1b[32m COMPLETADO\x1b[0m"
+  );
 
-    return datosEG;
+  var cod_localidad = await getCodigoLocalidad(
+    md5(datosEuskadi.Municipio + datosEuskadi.Provincia),
+    datosEuskadi.Municipio,
+    datosEuskadi.Codigopostal.substring(0, 2),
+    datosEuskadi.Provincia
+  );
+  datosEG.en_localidad = cod_localidad;
+  console.log(
+    "   - En localidad: " + datosEG.en_localidad + "\x1b[32m COMPLETADO\x1b[0m"
+  );
+
+  return datosEG;
 }
 
 export async function ExtractorIB(datosIB) {
-    let datosEG = crearObjetoEsquemaGlobal();
-    datosIB = JSON.parse(datosIB);
-    console.log("\nExtrayendo datos de " + datosIB.nom)
+  let datosEG = crearObjetoEsquemaGlobal();
+  datosIB = JSON.parse(datosIB);
+  console.log("\nExtrayendo datos de " + datosIB.nom);
 
-    datosEG.nombre = datosIB.nom
-    console.log("   - Centro: " + datosEG.nombre + "\x1b[32m COMPLETADO\x1b[0m")
+  datosEG.nombre = datosIB.nom;
+  console.log("   - Centro: " + datosEG.nombre + "\x1b[32m COMPLETADO\x1b[0m");
 
-    datosEG.tipo = definirTipoIB(datosIB.funcio)
-    console.log("   - Tipo: " + datosEG.tipo + "\x1b[32m COMPLETADO\x1b[0m")
+  datosEG.tipo = definirTipoIB(datosIB.funcio);
+  console.log("   - Tipo: " + datosEG.tipo + "\x1b[32m COMPLETADO\x1b[0m");
 
-    datosEG.direccion = datosIB.adreca
-    console.log("   - Direccion: " + datosEG.direccion + "\x1b[32m COMPLETADO\x1b[0m")
+  datosEG.direccion = datosIB.adreca;
+  console.log(
+    "   - Direccion: " + datosEG.direccion + "\x1b[32m COMPLETADO\x1b[0m"
+  );
 
-    var data = await getDireccion(datosIB.lat, datosIB.long);
+  var data = await getDireccion(datosIB.lat, datosIB.long);
 
-    datosEG.codigo_postal = data
-    if(datosEG.codigo_postal != ""){
-        console.log("   - Código postal: " + datosEG.codigo_postal + "\x1b[32m COMPLETADO\x1b[0m")
-    }else{
-        console.log("   - Código postal: " + datosEG.codigo_postal + "\x1b[31m ERROR\x1b[0m")
-    }
+  datosEG.codigo_postal = data;
+  if (datosEG.codigo_postal != "") {
+    console.log(
+      "   - Código postal: " +
+        datosEG.codigo_postal +
+        "\x1b[32m COMPLETADO\x1b[0m"
+    );
+  } else {
+    console.log(
+      "   - Código postal: " + datosEG.codigo_postal + "\x1b[31m ERROR\x1b[0m"
+    );
+  }
 
-    datosEG.longitud = datosIB.long
-    console.log("   - Longitud: " + datosEG.longitud + "\x1b[32m COMPLETADO\x1b[0m")
+  datosEG.longitud = datosIB.long;
+  console.log(
+    "   - Longitud: " + datosEG.longitud + "\x1b[32m COMPLETADO\x1b[0m"
+  );
 
-    datosEG.latitud = datosIB.lat
-    console.log("   - Latitud: " + datosEG.latitud + "\x1b[32m COMPLETADO\x1b[0m")
+  datosEG.latitud = datosIB.lat;
+  console.log(
+    "   - Latitud: " + datosEG.latitud + "\x1b[32m COMPLETADO\x1b[0m"
+  );
 
-    datosEG.telefono = await getTelefono(datosIB.nom)
-    if(datosEG.telefono != ""){
-        console.log("   - Telefono: " + datosEG.telefono + "\x1b[32m COMPLETADO\x1b[0m")
-    }else{
-        console.log("   - Telefono: " + datosEG.telefono + "\x1b[31m NO DISPONIBLE\x1b[0m")
-    } 
-    
-    datosEG.descripcion = ""
-    console.log("   - Descripción: " + datosEG.descripcion + "\x1b[32m COMPLETADO\x1b[0m") 
+  datosEG.telefono = await getTelefono(datosIB.nom);
+  if (datosEG.telefono != "") {
+    console.log(
+      "   - Telefono: " + datosEG.telefono + "\x1b[32m COMPLETADO\x1b[0m"
+    );
+  } else {
+    console.log(
+      "   - Telefono: " + datosEG.telefono + "\x1b[31m NO DISPONIBLE\x1b[0m"
+    );
+  }
 
-    var cod_localidad = await getCodigoLocalidad(md5(datosIB.municipi+"Illes Balears"), datosIB.municipi , "07" , "Illes Balears");
-    datosEG.en_localidad = cod_localidad;
-    console.log("   - En localidad: " + datosEG.en_localidad + "\x1b[32m COMPLETADO\x1b[0m")
+  datosEG.descripcion = "";
+  console.log(
+    "   - Descripción: " + datosEG.descripcion + "\x1b[32m COMPLETADO\x1b[0m"
+  );
 
-    return datosEG;
+  var cod_localidad = await getCodigoLocalidad(
+    md5(datosIB.municipi + "Illes Balears"),
+    datosIB.municipi,
+    "07",
+    "Illes Balears"
+  );
+  datosEG.en_localidad = cod_localidad;
+  console.log(
+    "   - En localidad: " + datosEG.en_localidad + "\x1b[32m COMPLETADO\x1b[0m"
+  );
+
+  return datosEG;
+}
+
+export function extraer(baleares, euskadi, comunidad) {
+  if (baleares == true) {
+    ExtractorIB();
+  }
+  if (euskadi == true) {
+    ExtractorEUS();
+  }
+  if (comunidad == true) {
+    ExtractorCV();
+  }
 }
