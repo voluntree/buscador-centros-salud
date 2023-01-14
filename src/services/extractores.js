@@ -1,7 +1,9 @@
+//Imports de librerias o metodos de otros archivos.
 import md5 from "md5";
 import { getCoordenadas, getDireccion, getTelefono } from "./scraper.js";
 import { getCodigoLocalidad } from "./services.js";
 
+//Crea un objeto con el esquema global
 function crearObjetoEsquemaGlobal(){
     var datosEG = {nombre: "",
                    tipo: "",
@@ -16,6 +18,7 @@ function crearObjetoEsquemaGlobal(){
     return datosEG;
 }
 
+//Convierte el tipo de origen de la Comunidad Valencia al esquema global
 function definirTipoCV(tipoOrigen){
     let tipo;
     switch (tipoOrigen){
@@ -68,6 +71,7 @@ function definirTipoCV(tipoOrigen){
     return tipo;
 }
 
+//Convierte el tipo de origen de Euskadi al esquema global
 function definirTipoEuskadi(tipoOrigen){
     let tipo;
     switch (tipoOrigen){
@@ -85,6 +89,7 @@ function definirTipoEuskadi(tipoOrigen){
     return tipo;
 }
 
+//Convierte el tipo de origen de Illes Balears al esquema global
 function definirTipoIB(tipoOrigen){
     let tipo;
     switch (tipoOrigen){
@@ -102,52 +107,31 @@ function definirTipoIB(tipoOrigen){
     return tipo;
 }
 
+//Extractor Comunidad Valenciana
 export async function ExtractorCV(datosCV) {
-    var datosEG = crearObjetoEsquemaGlobal();
-    datosCV = JSON.parse(datosCV);
-    console.log("\nExtrayendo datos de " + datosCV["Centre / Centro"])
+    var datosEG = crearObjetoEsquemaGlobal(); //Obtiene un objeto del esquema global
+    datosCV = JSON.parse(datosCV); //Convierte los datos JSON a un objeto javascript
 
-    datosEG.nombre = datosCV["Centre / Centro"]
-    console.log("   - Centro: " + datosEG.nombre + "\x1b[32m COMPLETADO\x1b[0m")
+    datosEG.nombre = datosCV["Centre / Centro"] //Obtiene el centro
+    datosEG.tipo = definirTipoCV(datosCV["Tipus_centre / Tipo_centro"]) //Obtiene el tipo de centro
+    datosEG.direccion = datosCV["Adreça / Dirección"] //Obtiene la direccion
 
-    datosEG.tipo = definirTipoCV(datosCV["Tipus_centre / Tipo_centro"])
-    console.log("   - Tipo: " + datosEG.tipo + "\x1b[32m COMPLETADO\x1b[0m")
-
-    datosEG.direccion = datosCV["Adreça / Dirección"]
-    console.log("   - Direccion: " + datosEG.direccion + "\x1b[32m COMPLETADO\x1b[0m")
-
+    //Obtiene las coordenadas y el codigo postal con el scraper
     var data = await getCoordenadas(datosCV["Adreça / Dirección"].replace("S/N","") 
                                    ,datosCV["Província / Provincia"]
                                    ,datosCV["Municipi / Municipio"])
     
-    datosEG.codigo_postal = data.codigo_postal
-    if(datosEG.codigo_postal != ""){
-        console.log("   - Código postal: " + datosEG.codigo_postal + "\x1b[32m COMPLETADO\x1b[0m")
-    }else{
-        console.log("   - Código postal: " + datosEG.codigo_postal + "\x1b[31m ERROR\x1b[0m")
-    }
+    datosEG.codigo_postal = data.codigo_postal //Obtiene el codigo postal
+    datosEG.longitud = parseFloat(data.longitud) //Obtiene la longitud
+    datosEG.latitud = parseFloat(data.latitud) //Obtiene la latitud
+    datosEG.telefono = await getTelefono(datosCV["Centre / Centro"]) //Obtiene el telefono con el scraper
+    datosEG.descripcion = datosCV["Tipus_centre / Tipo_centro"] //Obtiene la descripcion
 
-    datosEG.longitud = parseFloat(data.longitud)
-    console.log("   - Longitud: " + datosEG.longitud + "\x1b[32m COMPLETADO\x1b[0m")
-
-    datosEG.latitud = parseFloat(data.latitud)
-    console.log("   - Latitud: " + datosEG.latitud + "\x1b[32m COMPLETADO\x1b[0m")
-
-    datosEG.telefono = await getTelefono(datosCV["Centre / Centro"])
-    if(datosEG.telefono != ""){
-        console.log("   - Telefono: " + datosEG.telefono + "\x1b[32m COMPLETADO\x1b[0m")
-    }else{
-        console.log("   - Telefono: " + datosEG.telefono + "\x1b[31m NO DISPONIBLE\x1b[0m")
-    } 
-
-    datosEG.descripcion = datosCV["Tipus_centre / Tipo_centro"]
-    console.log("   - Descripción: " + datosEG.descripcion + "\x1b[32m COMPLETADO\x1b[0m")
-
+    //Obtiene el codigo de la localidad
     var cod_localidad = await getCodigoLocalidad(md5(datosCV["Municipi / Municipio"]+datosCV["Província / Provincia"]), datosCV["Municipi / Municipio"], datosCV["Codi_província / Código_provincia"], datosCV["Província / Provincia"]);
-    datosEG.en_localidad = cod_localidad;
-    console.log("   - En localidad: " + datosEG.en_localidad + "\x1b[32m COMPLETADO\x1b[0m")
+    datosEG.en_localidad = cod_localidad; //Almacena la localidad
 
-    return datosEG;
+    return datosEG; //Devuelve el objeto del esquema global
 }
 
 export async function ExtractorEUS(datosEuskadi) {

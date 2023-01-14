@@ -1,17 +1,14 @@
+//Imports de librerias o metodos de otros archivos.
 import { ExtractorCV, ExtractorEUS, ExtractorIB } from "./extractores.js";
-import { getDatabase, ref, set, get, child, onValue} from "firebase/database";
+import { ref, set, get, onValue} from "firebase/database";
 import { db } from "../firebase.js";
 import md5 from "md5"
-import dataCV from "../fuentes/primera_entrega/CV.json" assert { type: "json" };
-import dataIB from "../fuentes/primera_entrega/IB.json" assert {type: "json"};
-import dataEUS from "../fuentes/primera_entrega/EUS.json" assert {type: "json"};
-import { exit } from "process";
-
-
 
 export async function arrayAJsonCV(array) {
+  //Se crea un objeto vacio
   let json = {};
 
+  //Para cada centro extrae los datos
   for (let element of array){
     let elem = await ExtractorCV(JSON.stringify(element));
     if(elem.codigo_postal != ""){
@@ -58,76 +55,54 @@ export async function arrayAJsonIB(array) {
   return json;
 }
 
-export async function upload(objeto){
-    let hashClave = md5(objeto.nombre);
-    let refer = ref(db,"centros/" + hashClave)
-    await set(refer,{...objeto})
-    console.log("   - " + objeto.nombre + " \x1b[32mSUBIDO CON EXITO\x1b[0m")
+//Sube un centro a la base de datos
+export async function upload(centro){
+    let hashClave = md5(centro.nombre); //Crea el hash del nombre del centro para que sea unico
+    let refer = ref(db,"centros/" + hashClave) //Obtiene la referencia del centro
+    await set(refer,{...centro}) //Sube el centro a la base de datos en la referencia anterior.
+    console.log("   - " + centro.nombre + " \x1b[32mSUBIDO CON EXITO\x1b[0m")
 }
 
+//Obtiene el codigo de una localidad y sube la localidad a la base de datos si no existe
 export async function getCodigoLocalidad(codigo, nombre, cod_prov, nombre_prov){
   
+  //Devuelve el codigo de la localidad
   return await get(ref(db, "localidades/" + codigo + "/")).then((snapshot) => {
-    if(snapshot.exists()){
-      return snapshot.val().codigo;
-    }else{
-      let refer = ref(db, "localidades/" + codigo)
-      getCodigoProvincia(cod_prov, nombre_prov)
+    if(snapshot.exists()){ //Si existe
+      return snapshot.val().codigo; //Devuelve el codigo obtenido
+    }else{ //Si no existe
+      let refer = ref(db, "localidades/" + codigo) //Obtiene la referencia
+      getCodigoProvincia(cod_prov, nombre_prov) //Obtiene el codigo de la provincia
 
+      //Crea el objeto localidad
       let localidad = {codigo: codigo,
                        nombre: nombre,
                        en_provincia: cod_prov}
       
-      set(refer, {...localidad})
-      return codigo
+      set(refer, {...localidad}) //Sube el objeto localidad a la base de datos
+      return codigo //Devuelve el codigo de la localidad
     }
   });
   
 }
 
+//Obtiene el codigo de la provincia y sube la provincia a la base de datos si no existe
 export async function getCodigoProvincia(codigo, nombre){
   await get(ref(db, "provincias/" + codigo + "/")).then((snapshot) => {
-    if(snapshot.exists()){
-      return snapshot.val().codigo;
+    if(snapshot.exists()){ //Si la provincia existe
+      return snapshot.val().codigo; //Devuelve el codigo de la provincia
     }else{
-      let refer = ref(db, "provincias/" + codigo)
+      let refer = ref(db, "provincias/" + codigo) //Obtiene la referencia
+
+      //Crea el objeto provincia
       let provincia = {codigo: codigo,
                        nombre: nombre}
-      set(refer, {...provincia})
 
-      return codigo;
+      set(refer, {...provincia}) //Sube el objeto provincia a la base datos
+
+      return codigo; //Devuelve el codigo de la provincia
     }
   });
-}
-
-export async function getCentros(){
-  return new Promise(function (resolve, reject) {
-    const refCentros = ref(db, "centros/")
-  
-    onValue(refCentros, (snapshot) => {
-      resolve(snapshot.val());
-    })
-  })
-}
-
-export async function getLocalidades(){
-  return new Promise(function (resolve, reject) {
-    const refCentros = ref(db, "localidades/")
-  
-    onValue(refCentros, (snapshot) => {
-      resolve(snapshot.val());
-    })
-  })
-}
-
-export async function getProvincias(){
-  return new Promise(function (resolve, reject) {
-    const refCentros = ref(db, "provincias/")
-  
-    onValue(refCentros, (snapshot) => {
-      resolve(snapshot.val());
-    })
-  })
 }
 
 /*let inicioExtraccion = new Date()
