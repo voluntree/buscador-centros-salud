@@ -2,10 +2,6 @@ import { ExtractorCV, ExtractorEUS, ExtractorIB } from "./extractores.js";
 import { getDatabase, ref, set, get, child, onValue} from "firebase/database";
 import { db } from "../firebase.js";
 import md5 from "md5"
-import dataCV from "../fuentes/primera_entrega/CV.json" assert { type: "json" };
-import dataIB from "../fuentes/primera_entrega/IB.json" assert {type: "json"};
-import dataEUS from "../fuentes/primera_entrega/EUS.json" assert {type: "json"};
-import { exit } from "process";
 
 
 
