@@ -1,7 +1,7 @@
 import express, { json } from "express";
 import cors from "cors";
 import { ExtractorCV } from "../../services/extractores.js";
-import { arrayAJsonEUS, arrayAJsonIB } from "../../services/services.js";
+import { arrayAJsonCV, arrayAJsonEUS, arrayAJsonIB } from "../../services/services.js";
 import fetch from "node-fetch";
 
 const PORT = process.env.PORT || 3005;
@@ -24,7 +24,7 @@ app.get("/carga", (req, res) => {
     fetch("http://localhost:3002/centros/eus").then((res) => {
       res.json().then((jsonObject) => {
         let arrayEuskadi = jsonObject;
-        mensaje += arrayAJsonEUS(arrayEuskadi);
+        arrayAJsonEUS(arrayEuskadi).then((msg) => mensaje += msg);
       });
     });
   }
@@ -32,8 +32,8 @@ app.get("/carga", (req, res) => {
   if (comunidad == "true") {
     fetch(`http://localhost:3001/centros/cv`).then((res) => {
       res.json().then((jsonObject) => {
-        let arrayComunidad = JSON.parse(jsonObject)
-        mensaje += arrayAJsonCV(arrayComunidad);
+        let arrayComunidad = jsonObject;
+        arrayAJsonCV(arrayComunidad).then((msg) => mensaje += msg);
       });
     });
   }
@@ -41,11 +41,10 @@ app.get("/carga", (req, res) => {
   if (baleares == "true") {
     fetch("http://localhost:3003/centros/ib").then((res) => {
       res.json().then((jsonObject) => {
-        let arrayBaleares = JSON.parse(jsonObject);
-        mensaje += arrayAJsonIB(arrayBaleares);
+        let arrayBaleares = jsonObject;
+        arrayAJsonIB(arrayBaleares).then((msg) => mensaje += msg);
       });
     });
   }
-
   res.send(mensaje);
 });

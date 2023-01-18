@@ -22,7 +22,7 @@ export async function arrayAJsonCV(array) {
 
 export async function arrayAJsonEUS(array) {
   return new Promise(async (resolve, reject) => {
-    let mensaje;
+    let mensaje ="";
     for (let element of array) {
       let elem = await ExtractorEUS(JSON.stringify(element));
       if (elem.codigo_postal != "") {
@@ -44,6 +44,7 @@ export async function arrayAJsonIB(array) {
       if (elem.codigo_postal != "") {
         mensaje += `SUBIDO CORRECTAMENTE: ${elem.nombre} \n`;
         await upload(elem);
+        
       } else {
         mensaje += `ERROR: ${elem.nombre} \n`;
       }

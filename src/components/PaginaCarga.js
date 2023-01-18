@@ -13,13 +13,17 @@ const PaginaCarga = () => {
     if (todos == false) {
       fetch(`http://127.0.0.1:3005/carga?baleares=${baleares}
         &euskadi=${euskadi}&comunidad=${comunidad}`).then((res) => {
-        res.json().then(setMensaje(res));
+        //FALTA ESTO
+        //RES ES EL MENSAJE A MOSTRAR POR PANTALLA PERO SI HACES UN setMensaje(res) explota
+        //HAY QUE VER COMO HACER QUE SE MUESTRE POR LA PANTALLA
       });
     } else {
       fetch(`http://127.0.0.1:3005/carga?baleares=true
         &euskadi=true&comunidad=true`).then((res) => {
-        res.json().then(setMensaje(res));
-      });
+          //FALTA ESTO
+          //RES ES EL MENSAJE A MOSTRAR POR PANTALLA PERO SI HACES UN setMensaje(res) explota
+          //HAY QUE VER COMO HACER QUE SE MUESTRE POR LA PANTALLA
+        });
     }
   };
 
