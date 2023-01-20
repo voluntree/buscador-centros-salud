@@ -7,16 +7,18 @@ const PaginaCarga = () => {
   const [comunidad, setcomunidad] = useState(false);
   const [todos, settodos] = useState(false);
 
-  const [mensaje, setMensaje] = useState("");
+  const [mensaje, setMensaje] = useState([]);
+  let mensajesReales = []
 
-  const handleCargar = () => {
-    if (todos == false) {
-      fetch(`http://127.0.0.1:3005/carga?baleares=${baleares}
-        &euskadi=${euskadi}&comunidad=${comunidad}`).then((res) => {
-        //FALTA ESTO
-        //RES ES EL MENSAJE A MOSTRAR POR PANTALLA PERO SI HACES UN setMensaje(res) explota
-        //HAY QUE VER COMO HACER QUE SE MUESTRE POR LA PANTALLA
-      });
+  const handleCargar = async () => {
+    if (todos === false) {
+      let respuesta = await fetch(`http://127.0.0.1:3005/carga?baleares=${baleares}&euskadi=${euskadi}&comunidad=${comunidad}`);
+      const reader = respuesta.body.pipeThrough(new TextDecoderStream()).getReader()
+      while(true){
+        const {value, done} = await reader.read()
+        if(done) break
+        setMensaje([...mensaje, value])
+      }
     } else {
       fetch(`http://127.0.0.1:3005/carga?baleares=true
         &euskadi=true&comunidad=true`).then((res) => {
@@ -42,13 +44,13 @@ const PaginaCarga = () => {
               id="topping"
               name="topping"
               value="Seleccionar Todos"
-              onClick={() => {
+              checked={todos}
+              onChange={() => {
                 settodos(!todos);
                 setbaleares(false);
                 setcomunidad(false);
                 seteuskadi(false);
               }}
-              checked={todos}
             />
             <h3>Seleccionar Todos</h3>
           </div>
@@ -61,7 +63,7 @@ const PaginaCarga = () => {
               id="topping"
               name="topping"
               value="Islas Baleares"
-              onClick={() => {
+              onChange={() => {
                 setbaleares(!baleares);
               }}
               checked={baleares}
@@ -78,7 +80,7 @@ const PaginaCarga = () => {
               id="topping"
               name="topping"
               value="Euskadi"
-              onClick={() => {
+              onChange={() => {
                 seteuskadi(!euskadi);
               }}
               checked={euskadi}
@@ -95,7 +97,7 @@ const PaginaCarga = () => {
               id="topping"
               name="topping"
               value="Comunidad Valenciana"
-              onClick={() => {
+              onChange={() => {
                 setcomunidad(!comunidad);
               }}
               checked={comunidad}
@@ -106,10 +108,10 @@ const PaginaCarga = () => {
         </div>
       </div>
       <div className="buttons-container">
-        <button className="boton-cargar" onClick={handleCargar()}>
+        <button className="boton-cargar" onClick={() => handleCargar()}>
           Cargar
         </button>
-        <button className="boton-borrar" onClick={handleBorrar()}>
+        <button className="boton-borrar" onClick={() => handleBorrar()}>
           Borrar
         </button>
       </div>
@@ -121,8 +123,13 @@ const PaginaCarga = () => {
           rows="30"
           cols="100"
           value={mensaje}
+          readOnly = {true}
         />
+      </div> 
+      <div>
+      {mensajesReales.map((mensaje) => <li>{mensaje}</li>)}
       </div>
+      
     </div>
   );
 };

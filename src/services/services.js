@@ -4,53 +4,49 @@ import { ref, set, get, onValue } from "firebase/database";
 import { db } from "../firebase.js";
 import md5 from "md5";
 
-export async function arrayAJsonCV(array) {
+export async function ExtraerCentroCV(centro) {
   return new Promise(async (resolve, reject) => {
     let mensaje;
-    for (let element of array) {
-      let elem = await ExtractorCV(JSON.stringify(element));
-      if (elem.codigo_postal != "") {
-        mensaje += `SUBIDO CORRECTAMENTE: ${elem.nombre} \n`;
-        await upload(elem);
-      } else {
-        mensaje += `ERROR: ${elem.nombre} \n`;
-      }
+    let centroExtraido = await ExtractorCV(JSON.stringify(centro));
+    if (centroExtraido.codigo_postal != "") {
+      await upload(centroExtraido);
+      mensaje = `SUBIDO CORRECTAMENTE: ${centroExtraido.nombre} \n`;
+    } else {
+      mensaje = `ERROR: ${centroExtraido.nombre} \n`;
     }
-    resolve(mensaje);
-  });
+
+    resolve(mensaje)
+  })
 }
 
-export async function arrayAJsonEUS(array) {
-  return new Promise(async (resolve, reject) => {
-    let mensaje ="";
-    for (let element of array) {
-      let elem = await ExtractorEUS(JSON.stringify(element));
-      if (elem.codigo_postal != "") {
-        mensaje += `SUBIDO CORRECTAMENTE: ${elem.nombre} \n`;
-        await upload(elem);
-      } else {
-        mensaje += `ERROR: ${elem.nombre} \n`;
-      }
-    }
-    resolve(mensaje);
-  });
-}
-
-export async function arrayAJsonIB(array) {
+export async function ExtraerCentroEUS(centro) {
   return new Promise(async (resolve, reject) => {
     let mensaje;
-    for (let element of array) {
-      let elem = await ExtractorIB(JSON.stringify(element));
-      if (elem.codigo_postal != "") {
-        mensaje += `SUBIDO CORRECTAMENTE: ${elem.nombre} \n`;
-        await upload(elem);
-        
-      } else {
-        mensaje += `ERROR: ${elem.nombre} \n`;
-      }
+    let centroExtraido = await ExtractorEUS(JSON.stringify(centro));
+    if (centroExtraido.codigo_postal != "") {
+      await upload(centroExtraido);
+      mensaje = `SUBIDO CORRECTAMENTE: ${centroExtraido.nombre} \n`;
+    } else {
+      mensaje = `ERROR: ${centroExtraido.nombre} \n`;
     }
-    resolve(mensaje);
-  });
+
+    resolve(mensaje)
+  })
+}
+
+export async function ExtraerCentroIB(centro) {
+  return new Promise(async (resolve, reject) => {
+    let mensaje;
+    let centroExtraido = await ExtractorIB(JSON.stringify(centro));
+    if (centroExtraido.codigo_postal != "") {
+      await upload(centroExtraido);
+      mensaje = `SUBIDO CORRECTAMENTE: ${centroExtraido.nombre} \n`;
+    } else {
+      mensaje = `ERROR: ${centroExtraido.nombre} \n`;
+    }
+
+    resolve(mensaje)
+  })
 }
 
 //Sube un centro a la base de datos
