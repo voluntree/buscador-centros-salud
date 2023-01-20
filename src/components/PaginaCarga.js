@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import "./PaginaCarga.css";
 
 const PaginaCarga = () => {
@@ -7,25 +7,30 @@ const PaginaCarga = () => {
   const [comunidad, setcomunidad] = useState(false);
   const [todos, settodos] = useState(false);
 
-  const [mensaje, setMensaje] = useState([]);
-  let mensajesReales = []
+  const [mensajes, setMensajes] = useState([])
 
   const handleCargar = async () => {
     if (todos === false) {
       let respuesta = await fetch(`http://127.0.0.1:3005/carga?baleares=${baleares}&euskadi=${euskadi}&comunidad=${comunidad}`);
       const reader = respuesta.body.pipeThrough(new TextDecoderStream()).getReader()
+      let mensajes = ""
       while(true){
         const {value, done} = await reader.read()
         if(done) break
-        setMensaje([...mensaje, value])
+        mensajes += value
+        setMensajes(mensajes)
       }
     } else {
-      fetch(`http://127.0.0.1:3005/carga?baleares=true
-        &euskadi=true&comunidad=true`).then((res) => {
-          //FALTA ESTO
-          //RES ES EL MENSAJE A MOSTRAR POR PANTALLA PERO SI HACES UN setMensaje(res) explota
-          //HAY QUE VER COMO HACER QUE SE MUESTRE POR LA PANTALLA
-        });
+      let respuesta = await fetch(`http://127.0.0.1:3005/carga?baleares=true
+        &euskadi=true&comunidad=true`)
+        const reader = respuesta.body.pipeThrough(new TextDecoderStream()).getReader()
+        let mensajes = ""
+        while(true){
+          const {value, done} = await reader.read()
+          if(done) break
+          mensajes += value
+          setMensajes(mensajes)
+        }
     }
   };
 
@@ -122,14 +127,10 @@ const PaginaCarga = () => {
           name="datos-cargados"
           rows="30"
           cols="100"
-          value={mensaje}
+          value={mensajes}
           readOnly = {true}
         />
       </div> 
-      <div>
-      {mensajesReales.map((mensaje) => <li>{mensaje}</li>)}
-      </div>
-      
     </div>
   );
 };
