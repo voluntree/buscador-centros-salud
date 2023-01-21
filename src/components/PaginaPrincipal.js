@@ -21,7 +21,7 @@ useEffect(() => {
 
 function getCentros() {
   fetch(
-    `http://localhost:3000/busqueda?localidad=${localidad}&provincia=${provincia}&cod_postal=${cod_postal}&tipo=${tipo}`
+    `http://127.0.1.1:3004/busqueda?localidad=${localidad}&provincia=${provincia}&cod_postal=${cod_postal}&tipo=${tipo}`
   )
     .then((res) => res.json())
     .then((jsonObject) => {
@@ -86,7 +86,7 @@ const listaCentros = () => {
 
 
   return (
-    <div>
+    <div className="AppContainer">
       <h1>Buscador de Centros de Salud</h1>
       <div className="BuscadorContainer">
         <div className="InputContainer">

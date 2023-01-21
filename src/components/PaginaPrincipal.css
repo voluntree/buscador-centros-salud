@@ -4,6 +4,13 @@
   outline: none;
 }
 
+.AppContainer {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+}
+
 body{
   background-color: #fff;
   padding-bottom: 2rem;
