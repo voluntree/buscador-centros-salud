@@ -4,6 +4,11 @@ import { ref, set, get, onValue } from "firebase/database";
 import { db } from "../firebase.js";
 import md5 from "md5";
 
+/*
+Extrae la informacion de un centro del tipo Comunidad Valenciana y lo sube a la 
+base de datos.
+Devuelve un mensaje con el resultado de la extraccion
+*/
 export async function ExtraerCentroCV(centro) {
   return new Promise(async (resolve, reject) => {
     let mensaje;
@@ -19,6 +24,11 @@ export async function ExtraerCentroCV(centro) {
   })
 }
 
+/*
+Extrae la informacion de un centro del tipo Euskadi y lo sube a la 
+base de datos.
+Devuelve un mensaje con el resultado de la extraccion
+*/
 export async function ExtraerCentroEUS(centro) {
   return new Promise(async (resolve, reject) => {
     let mensaje;
@@ -34,6 +44,11 @@ export async function ExtraerCentroEUS(centro) {
   })
 }
 
+/*
+Extrae la informacion de un centro del tipo Illes Balears y lo sube a la 
+base de datos.
+Devuelve un mensaje con el resultado de la extraccion
+*/
 export async function ExtraerCentroIB(centro) {
   return new Promise(async (resolve, reject) => {
     let mensaje;
@@ -105,23 +120,3 @@ export async function getCodigoProvincia(codigo, nombre) {
     }
   });
 }
-
-/*let inicioExtraccion = new Date()
-console.log("\nINICIANDO EXTRACCIÓN DE DATOS")
-console.log("\nEXTRAYENDO DATOS DE EUSKADI")
-const datosEUS = await arrayAJsonEUS(dataEUS)
-
-console.log("\nEXTRAYENDO DATOS DE LA COMUNIDAD VALENCIANA")
-const datosCV = await arrayAJsonCV(dataCV)
-
-console.log("\nEXTRAYENDO DATOS DE LAS ISLAS BALEARES")
-const datosIB = await arrayAJsonIB(dataIB)
-
-console.log("\nEXTRACCIÓN DE DATOS FINALIZADA")
-// Tiempo de extraccion en minutos, segundos y milisegundos
-let tiempoExtraccion = new Date() - inicioExtraccion
-let minutos = Math.floor(tiempoExtraccion / 60000)
-let segundos = ((tiempoExtraccion % 60000) / 1000).toFixed(0)
-let milisegundos = tiempoExtraccion % 1000
-console.log("TIEMPO DE EXTRACCIÓN: " + minutos + " minutos, " + segundos + " segundos y " + milisegundos + " milisegundos")
-exit()*/
