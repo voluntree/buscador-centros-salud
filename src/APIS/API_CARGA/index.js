@@ -58,7 +58,7 @@ app.get("/carga", async (req, res) => {
 app.get("/deleteall", async (req,res)=>{
   try {
     let refer = ref(db, "/");
-    set(refer,{});
+    await set(refer,{});
     res.send(200, { message: "OK"})
   } catch (error) {
     console.log("Error borrando");
