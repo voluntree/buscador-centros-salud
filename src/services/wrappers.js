@@ -44,7 +44,6 @@ export function xmlToJson(data){
     Se hace uso de la libreria xml-js para convertir el xml a json. Se le pasan los datos y 
     se le pasan las opciones para formatear el JSON.
     */
-    console.log(data);
     const obj = xml2js([data], {compact: true, 
                            spaces: 4, 
                            ignoreComment: true, 

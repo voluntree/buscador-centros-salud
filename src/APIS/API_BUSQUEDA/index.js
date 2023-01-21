@@ -40,8 +40,104 @@ app.listen(PORT, () => {
     console.log("Server is listening on " + PORT)
 })
 
+
+
 /*
   Se realiza la implementación para una petición de tipo GET en la direccion http://localhost:PORT/busqueda
+*/
+/**
+ * @swagger
+ * /busqueda:
+ *   get:
+ *     summary: Devuelve una lista de centros en formato JSON.
+ *     description: Devuelve una lista de centros en formato JSON. Según los parametros localidad, provincia, cod_postal y tipo.
+ *     parameters:
+ *     - in: query
+ *       name: localidad
+ *       schema:
+ *         type: string
+ *       description: El nombre de la localidad en la que se quieren buscar centros.
+ *     - in: query
+ *       name: provincia
+ *       schema:
+ *         type: string
+ *       description: El nombre de la provincia en la que se quieren buscar centros.
+ *     - in: query
+ *       name: cod_postal
+ *       schema:
+ *         type: string
+ *       description: El codigo postal de la localidad en la que se quieren buscar centros.
+ *     - in: query
+ *       name: tipo
+ *       schema:
+ *         type: string
+ *         enum: 
+ *           - todos
+ *           - hospital
+ *           - centro de salud
+ *           - otros
+ *       description: El tipo de centro que se quiere buscar.
+ *     responses:
+ *       200:
+ *         description: Una lista de centros.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   codigo_postal:
+ *                     type: string
+ *                     description: El codigo postal del centro.
+ *                     example: 12004
+ *                   descripcion:
+ *                     type: string
+ *                     description: La descripción del centro.
+ *                     example: Hospitales generales
+ *                   direccion:
+ *                     type: string
+ *                     description: La dirección del centro.
+ *                     example: Avda Benicasim S/N
+ *                   localidad:
+ *                     type: object
+ *                     properties:
+ *                       nombre:
+ *                         type: string
+ *                         description: El nombre de la localidad.
+ *                         example: Castelló de la Plana
+ *                       provincia:
+ *                         type: object
+ *                         properties:
+ *                           codigo:
+ *                             type: string
+ *                             description: El codigo de la provincia.
+ *                             example: 12
+ *                           nombre:
+ *                             type: string
+ *                             description: El nombre de la Provincia.
+ *                             example: Castellón
+ *                   latitud:
+ *                     type: float
+ *                     description: La latitud en la que se encuentra el centro.
+ *                     example: 39.9984701
+ *                   longitud:
+ *                     type: float
+ *                     description: La longitud en la que se encuentra el centro.
+ *                     example: -0.0391575
+ *                   nombre:
+ *                     type: string
+ *                     description: El nombre del centro.
+ *                     example: Hospital General Universitario de Castellón
+ *                   telefono:
+ *                     type: string
+ *                     description: El telefono del centro.
+ *                     example: 964 72 50 00
+ *                   tipo:
+ *                     type: string
+ *                     description: El tipo del centro.
+ *                     example: Hospital
+ * 
 */
 app.get("/busqueda", (req, res) => {
     //Se obtiene el valor del parametro localidad recibido a traves de la query
@@ -176,3 +272,33 @@ function obtenerLocalidadProvincia(centro, localidades, provincias){
     //Se devuelve el centroCompleto con los datos necesarios
     return centroCompleto                           
 }
+
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'API BUSQUEDA CENTROS SALUD',
+    version: '1.0.0',
+    description:
+      'Es una aplicacion API REST hecha con Express. '+ 
+      'Devuelve una lista de centros en formato JSON según los parametros recibidos.',
+  },
+  servers: [
+    {
+      url: 'http://localhost:3004/',
+      description: 'Servidor busqueda centros de salud',
+    },
+  ],
+};
+
+const options = {
+  swaggerDefinition,
+  // Paths to files containing OpenAPI definitions
+  apis: ['index.js'],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

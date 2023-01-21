@@ -23,6 +23,8 @@
     "react-router-dom": "^6.6.2",
     "react-scripts": "^5.0.1",
     "selenium-webdriver": "^4.7.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.0",
     "update": "^0.7.4",
     "web-vitals": "^2.1.4",
     "webdriver-manager": "^12.1.8",

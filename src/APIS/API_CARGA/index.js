@@ -27,7 +27,40 @@ app.listen(PORT, () => {
   Se realiza la implementación para una petición de tipo GET en la direccion 
   http://localhost:PORT/carga?comunidad={value}&baleares={value}&euskadi={value}
 */
+
+/**
+ * @swagger
+ * /carga?comunidad={comunidad}&baleares={baleares}&euskadi={esukadi}:
+ *   get:
+ *     summary: Devuelve texto plano con el resultado de la carga.
+ *     description: Devuelve texto plano con el resultado de la carga.
+ *     parameters:
+ *     - in: query
+ *       name: comunidad
+ *       schema:
+ *         type: string
+ *       description: true o false si se quiere o no cargar los centros de la Comunidad Valenciana.
+ *     - in: query
+ *       name: baleares
+ *       schema:
+ *         type: string
+ *       description: true o false si se quiere o no cargar los centros de las Islas Baleares.
+ *     - in: query
+ *       name: euskadi
+ *       schema:
+ *         type: string
+ *       description: true o false si se quiere o no cargar los centros de la Euskadi.
+ *     responses:
+ *       200:
+ *         description: Devuelve texto plano con el resultado de la carga.
+ *         content:
+ *           text/plain:
+ *             schema:
+ *               type: string
+ *               example: SUBIDO CORRECTAMENTE Hospital de Sagunto
+*/
 app.get("/carga", async (req, res) => {
+  console.log("PETICION RECIBIDA")
   //Se obtiene el valor del parametro comunidad recibido a traves de la query
   const comunidad = req.query.comunidad;
 
@@ -68,11 +101,24 @@ app.get("/carga", async (req, res) => {
   }
 
   res.end(); //Se finaliza la peticion
+
+  console.log("PETICION FINALIZADA")
 });
 
 /*
   Se realiza la implementación para una petición de tipo DELETE en la direccion 
   http://localhost:PORT/carga?comunidad={value}&baleares={value}&euskadi={value}
+*/
+
+/**
+ * @swagger
+ * /deleteall:
+ *   delete:
+ *     summary: Elimina todos los datos de la base de datos.
+ *     description: Elimina todos los datos de la base de datos
+ *     responses:
+ *       200:
+ *         description: No devuelve nada.
 */
 app.delete("/deleteall", async (req,res)=>{ 
   try {
@@ -82,3 +128,32 @@ app.delete("/deleteall", async (req,res)=>{
     console.log("Error borrando");
   } finally{ console.log("Borrado terminado");}
 });
+
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
+
+const swaggerDefinition = {
+  openapi: '3.0.0',
+  info: {
+    title: 'API CARGA',
+    version: '1.0.0',
+    description:
+      'Es una aplicacion API REST hecha con Express. ',
+  },
+  servers: [
+    {
+      url: 'http://localhost:3005/',
+      description: 'API CARGA',
+    },
+  ],
+};
+
+const options = {
+  swaggerDefinition,
+  // Paths to files containing OpenAPI definitions
+  apis: ['index.js'],
+};
+
+const swaggerSpec = swaggerJSDoc(options);
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
