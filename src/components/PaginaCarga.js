@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
 import "./PaginaCarga.css";
 
 const PaginaCarga = () => {
@@ -6,12 +6,13 @@ const PaginaCarga = () => {
   const [euskadi, seteuskadi] = useState(false);
   const [comunidad, setcomunidad] = useState(false);
   const [todos, settodos] = useState(false);
-
+  const [isLoading, setLoading] = useState(false);
   const [mensajes, setMensajes] = useState([])
 
   const handleCargar = async () => {
     if (todos === false) {
       let respuesta = await fetch(`http://127.0.0.1:3005/carga?baleares=${baleares}&euskadi=${euskadi}&comunidad=${comunidad}`);
+      setLoading(true)
       const reader = respuesta.body.pipeThrough(new TextDecoderStream()).getReader()
       let mensajes = ""
       while(true){
@@ -20,9 +21,11 @@ const PaginaCarga = () => {
         mensajes += value
         setMensajes(mensajes)
       }
+      setLoading(false)
     } else {
       let respuesta = await fetch(`http://127.0.0.1:3005/carga?baleares=true
         &euskadi=true&comunidad=true`)
+        setLoading(true)
         const reader = respuesta.body.pipeThrough(new TextDecoderStream()).getReader()
         let mensajes = ""
         while(true){
@@ -31,6 +34,7 @@ const PaginaCarga = () => {
           mensajes += value
           setMensajes(mensajes)
         }
+        setLoading(false)
     }
   };
 
@@ -121,7 +125,16 @@ const PaginaCarga = () => {
         </button>
       </div>
       <div className="text-field-container">
-        <h3>Resultados de la carga:</h3>
+        <div className="container-carga">
+          <h3>Resultados de la carga:</h3>
+          {isLoading ?
+          (<div className="container-spinner">
+            <div className="spinner"></div>
+            <label>Subiendo</label>
+          </div>):<></>}
+          
+        </div>
+        
         <textarea
           className="text-field"
           name="datos-cargados"
