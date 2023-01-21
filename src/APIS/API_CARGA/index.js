@@ -6,6 +6,8 @@ import {
   ExtraerCentroIB,
 } from "../../services/services.js";
 import fetch from "node-fetch";
+import { ref, set } from "firebase/database";
+import { db } from "../../firebase.js";
 
 const PORT = process.env.PORT || 3005;
 const app = express();
@@ -51,4 +53,15 @@ app.get("/carga", async (req, res) => {
   }
 
   res.end();
+});
+
+app.get("/deleteall", async (req,res)=>{
+  try {
+    let refer = ref(db, "/");
+    set(refer,{});
+    res.send(200, { message: "OK"})
+  } catch (error) {
+    console.log("Error borrando");
+    res.send(400, { message: "ERROR"})
+  } finally{ console.log("Borrado terminado");}
 });

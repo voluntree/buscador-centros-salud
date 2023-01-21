@@ -113,6 +113,7 @@ const listaCentros = () => {
         <div className="ButtonContainer">
           <button onClick={getCentros}>Buscar</button>
           <button onClick={limpiarCampos}>Cancelar</button>
+          <button><a href="/carga">Cargar</a></button>
         </div>
       </div>
       <div className="map-container">

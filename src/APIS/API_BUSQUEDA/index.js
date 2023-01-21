@@ -1,7 +1,6 @@
 //Imports de librerias o metodos de otros archivos.
 import express from "express";
 import cors from "cors"
-import { getCentros, getLocalidades, getProvincias } from "../../services/services.js";
 import { onValue, ref } from "firebase/database";
 import { db } from "../../firebase.js";
 
