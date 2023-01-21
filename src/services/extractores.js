@@ -115,163 +115,74 @@ export async function ExtractorCV(datosCV) {
     datosEG.nombre = datosCV["Centre / Centro"] //Obtiene el centro
     datosEG.tipo = definirTipoCV(datosCV["Tipus_centre / Tipo_centro"]) //Obtiene el tipo de centro
     datosEG.direccion = datosCV["Adreça / Dirección"] //Obtiene la direccion
-
     //Obtiene las coordenadas y el codigo postal con el scraper
     var data = await getCoordenadas(datosCV["Adreça / Dirección"].replace("S/N","") 
                                    ,datosCV["Província / Provincia"]
                                    ,datosCV["Municipi / Municipio"])
-    
     datosEG.codigo_postal = data.codigo_postal //Obtiene el codigo postal
     datosEG.longitud = parseFloat(data.longitud) //Obtiene la longitud
     datosEG.latitud = parseFloat(data.latitud) //Obtiene la latitud
     datosEG.telefono = await getTelefono(datosCV["Centre / Centro"]) //Obtiene el telefono con el scraper
     datosEG.descripcion = datosCV["Tipus_centre / Tipo_centro"] //Obtiene la descripcion
-
     //Obtiene el codigo de la localidad
-    var cod_localidad = await getCodigoLocalidad(md5(datosCV["Municipi / Municipio"]+datosCV["Província / Provincia"]), datosCV["Municipi / Municipio"], datosCV["Codi_província / Código_provincia"], datosCV["Província / Provincia"]);
+    var cod_localidad = await getCodigoLocalidad(md5(datosCV["Municipi / Municipio"]
+                        +datosCV["Província / Provincia"]), 
+                        datosCV["Municipi / Municipio"], 
+                        datosCV["Codi_província / Código_provincia"], 
+                        datosCV["Província / Provincia"]);
     datosEG.en_localidad = cod_localidad; //Almacena la localidad
 
     return datosEG; //Devuelve el objeto del esquema global
 }
 
+//Extractor Euskadi
 export async function ExtractorEUS(datosEuskadi) {
-  let datosEG = crearObjetoEsquemaGlobal();
-  datosEuskadi = JSON.parse(datosEuskadi);
-  console.log("\nExtrayendo datos de " + datosEuskadi.Nombre);
-
-  datosEG.nombre = datosEuskadi.Nombre;
-  console.log("   - Centro: " + datosEG.nombre + "\x1b[32m COMPLETADO\x1b[0m");
-
-  datosEG.tipo = definirTipoEuskadi(datosEuskadi.Tipodecentro);
-  console.log("   - Tipo: " + datosEG.tipo + "\x1b[32m COMPLETADO\x1b[0m");
-
-  datosEG.direccion = datosEuskadi.Direccion;
-  console.log(
-    "   - Direccion: " + datosEG.direccion + "\x1b[32m COMPLETADO\x1b[0m"
-  );
-
-  datosEG.codigo_postal = datosEuskadi.Codigopostal;
-  console.log(
-    "   - Código postal: " +
-      datosEG.codigo_postal +
-      "\x1b[32m COMPLETADO\x1b[0m"
-  );
-
-  datosEG.longitud = parseFloat(datosEuskadi.LONWGS84);
-  console.log(
-    "   - Longitud: " + datosEG.longitud + "\x1b[32m COMPLETADO\x1b[0m"
-  );
-
-  datosEG.latitud = parseFloat(datosEuskadi.LATWGS84);
-  console.log(
-    "   - Latitud: " + datosEG.latitud + "\x1b[32m COMPLETADO\x1b[0m"
-  );
-
-  datosEG.telefono = datosEuskadi.Telefono;
-  console.log(
-    "   - Telefono: " + datosEG.telefono + "\x1b[32m COMPLETADO\x1b[0m"
-  );
-
-  datosEG.descripcion = datosEuskadi.HorarioatencionCiudadana;
+  let datosEG = crearObjetoEsquemaGlobal(); //Obtiene un objeto del esquema global
+  datosEuskadi = JSON.parse(datosEuskadi); //Convierte los datos JSON a un objeto javascript
+  
+  datosEG.nombre = datosEuskadi.Nombre; //Obtiene el nombre
+  datosEG.tipo = definirTipoEuskadi(datosEuskadi.Tipodecentro); //Obtiene el tipo de centro
+  datosEG.direccion = datosEuskadi.Direccion; //Obtiene la direccion
+  datosEG.codigo_postal = datosEuskadi.Codigopostal; //Obtiene el codigo postal
+  datosEG.longitud = parseFloat(datosEuskadi.LONWGS84); //Obtiene la longitud
+  datosEG.latitud = parseFloat(datosEuskadi.LATWGS84); //Obtiene la latitud
+  datosEG.telefono = datosEuskadi.Telefono; //Obtiene el telefono
+  datosEG.descripcion = datosEuskadi.HorarioatencionCiudadana; //Obtiene datos adicionales
   ++datosEuskadi.Horarioespecial;
   ++datosEuskadi.Hospitaldereferencia;
-  console.log(
-    "   - Descripción: " + datosEG.descripcion + "\x1b[32m COMPLETADO\x1b[0m"
-  );
-
+  //Obtiene el codigo de la localidad
   var cod_localidad = await getCodigoLocalidad(
     md5(datosEuskadi.Municipio + datosEuskadi.Provincia),
     datosEuskadi.Municipio,
     datosEuskadi.Codigopostal.substring(0, 2),
     datosEuskadi.Provincia
   );
-  datosEG.en_localidad = cod_localidad;
-  console.log(
-    "   - En localidad: " + datosEG.en_localidad + "\x1b[32m COMPLETADO\x1b[0m"
-  );
-
-  return datosEG;
+  datosEG.en_localidad = cod_localidad; //Establece el codigo de la localidad
+ 
+  return datosEG; //Devuelve el objeto del esquema global
 }
 
+//Extractor Illes Balears
 export async function ExtractorIB(datosIB) {
-  let datosEG = crearObjetoEsquemaGlobal();
-  datosIB = JSON.parse(datosIB);
-  console.log("\nExtrayendo datos de " + datosIB.nom);
-
-  datosEG.nombre = datosIB.nom;
-  console.log("   - Centro: " + datosEG.nombre + "\x1b[32m COMPLETADO\x1b[0m");
-
-  datosEG.tipo = definirTipoIB(datosIB.funcio);
-  console.log("   - Tipo: " + datosEG.tipo + "\x1b[32m COMPLETADO\x1b[0m");
-
-  datosEG.direccion = datosIB.adreca;
-  console.log(
-    "   - Direccion: " + datosEG.direccion + "\x1b[32m COMPLETADO\x1b[0m"
-  );
-
-  var data = await getDireccion(datosIB.lat, datosIB.long);
-
-  datosEG.codigo_postal = data;
-  if (datosEG.codigo_postal != "") {
-    console.log(
-      "   - Código postal: " +
-        datosEG.codigo_postal +
-        "\x1b[32m COMPLETADO\x1b[0m"
-    );
-  } else {
-    console.log(
-      "   - Código postal: " + datosEG.codigo_postal + "\x1b[31m ERROR\x1b[0m"
-    );
-  }
-
-  datosEG.longitud = datosIB.long;
-  console.log(
-    "   - Longitud: " + datosEG.longitud + "\x1b[32m COMPLETADO\x1b[0m"
-  );
-
-  datosEG.latitud = datosIB.lat;
-  console.log(
-    "   - Latitud: " + datosEG.latitud + "\x1b[32m COMPLETADO\x1b[0m"
-  );
-
-  datosEG.telefono = await getTelefono(datosIB.nom);
-  if (datosEG.telefono != "") {
-    console.log(
-      "   - Telefono: " + datosEG.telefono + "\x1b[32m COMPLETADO\x1b[0m"
-    );
-  } else {
-    console.log(
-      "   - Telefono: " + datosEG.telefono + "\x1b[31m NO DISPONIBLE\x1b[0m"
-    );
-  }
-
-  datosEG.descripcion = "";
-  console.log(
-    "   - Descripción: " + datosEG.descripcion + "\x1b[32m COMPLETADO\x1b[0m"
-  );
-
+  let datosEG = crearObjetoEsquemaGlobal(); //Obtiene un objeto del esquema global
+  datosIB = JSON.parse(datosIB); //Convierte los datos JSON a un objeto javascript
+  
+  datosEG.nombre = datosIB.nom; //Obtiene el nombre
+  datosEG.tipo = definirTipoIB(datosIB.funcio); //Obtiene el tipo de centro
+  datosEG.direccion = datosIB.adreca; //Obtiene la direccion
+  datosEG.codigo_postal = await getDireccion(datosIB.lat, datosIB.long); //Obtiene el codigo postal
+  datosEG.longitud = datosIB.long; //Obtiene la longitud
+  datosEG.latitud = datosIB.lat; //Obtiene la latitud
+  datosEG.telefono = await getTelefono(datosIB.nom); //Obtiene el telefono
+  datosEG.descripcion = ""; //Obtiene la descripcion
+  //Obtiene la localidad
   var cod_localidad = await getCodigoLocalidad(
     md5(datosIB.municipi + "Illes Balears"),
     datosIB.municipi,
     "07",
     "Illes Balears"
   );
-  datosEG.en_localidad = cod_localidad;
-  console.log(
-    "   - En localidad: " + datosEG.en_localidad + "\x1b[32m COMPLETADO\x1b[0m"
-  );
+  datosEG.en_localidad = cod_localidad; //Establece el codigo de la localidad
 
-  return datosEG;
-}
-
-export function extraer(baleares, euskadi, comunidad) {
-  if (baleares == true) {
-    ExtractorIB();
-  }
-  if (euskadi == true) {
-    ExtractorEUS();
-  }
-  if (comunidad == true) {
-    ExtractorCV();
-  }
+  return datosEG; //Devuelve el objeto del esquema global
 }
