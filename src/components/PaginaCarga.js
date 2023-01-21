@@ -11,8 +11,8 @@ const PaginaCarga = () => {
 
   const handleCargar = async () => {
     if (todos === false) {
-      let respuesta = await fetch(`http://127.0.0.1:3005/carga?baleares=${baleares}&euskadi=${euskadi}&comunidad=${comunidad}`);
       setLoading(true)
+      let respuesta = await fetch(`http://127.0.0.1:3005/carga?baleares=${baleares}&euskadi=${euskadi}&comunidad=${comunidad}`);
       const reader = respuesta.body.pipeThrough(new TextDecoderStream()).getReader()
       let mensajes = ""
       while(true){
@@ -23,9 +23,8 @@ const PaginaCarga = () => {
       }
       setLoading(false)
     } else {
-      let respuesta = await fetch(`http://127.0.0.1:3005/carga?baleares=true
-        &euskadi=true&comunidad=true`)
-        setLoading(true)
+      setLoading(true)
+      let respuesta = await fetch(`http://127.0.0.1:3005/carga?baleares=true&euskadi=true&comunidad=true`)
         const reader = respuesta.body.pipeThrough(new TextDecoderStream()).getReader()
         let mensajes = ""
         while(true){
@@ -39,7 +38,7 @@ const PaginaCarga = () => {
   };
 
   const handleBorrar = async () => {
-    let res = await fetch("/deleteAll")
+    let res = await fetch(`http://127.0.0.1:3005/deleteAll`, { method: 'DELETE' })
     console.log(res.status);
   };
 
