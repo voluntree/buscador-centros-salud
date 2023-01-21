@@ -23,8 +23,7 @@ const PaginaCarga = () => {
       }
       setLoading(false)
     } else {
-      let respuesta = await fetch(`http://127.0.0.1:3005/carga?baleares=true
-        &euskadi=true&comunidad=true`)
+      let respuesta = await fetch(`http://127.0.0.1:3005/carga?baleares=true&euskadi=true&comunidad=true`)
         setLoading(true)
         const reader = respuesta.body.pipeThrough(new TextDecoderStream()).getReader()
         let mensajes = ""
