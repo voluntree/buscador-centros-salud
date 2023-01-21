@@ -32,7 +32,14 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "api_busq":"node src/APIS/API_BUSQUEDA/index.js",
+    "api_carga":"node src/APIS/API_CARGA/index.js",
+    "api_cv":"node src/APIS/API_CV/index.js",
+    "api_eus":"node src/APIS/API_EUS/index.js",
+    "api_ib":"node src/APIS/API_IB/index.js",
+    "start_apis":"npm run api_busq && npm run api_carga && npm run api_cv && npm run api_eus && npm run api_ib"
+    
   },
   "eslintConfig": {
     "extends": [
