@@ -177,14 +177,9 @@ tr:hover{
   border-radius: 10px;
 }
 
-a{
-  text-decoration: none;
-  cursor: default;
-}
-
 .map-container{
   margin-top: 15px;
-  width: 67rem;
+  width: 60rem;
   height: 60rem;
   overflow: hidden;
   border-radius: 15px;

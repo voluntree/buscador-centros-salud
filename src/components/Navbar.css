@@ -1,0 +1,27 @@
+.NavContainer {
+  display: inline-block;
+  width: 100%;
+
+  padding: 1% 0% 1% 0%;
+  background: #fff;
+  box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+a {
+  text-decoration: none;
+  cursor: default;
+}
+a:hover {
+  font-weight: 700;
+}
+a:focus {
+  color: rgb(0, 12, 179);
+  font-weight: bolder;
+}
+
+.nav-text {
+  font-weight: 500;
+  color: #474e68;
+  padding: 1% 1%;
+  margin: 0;
+}
