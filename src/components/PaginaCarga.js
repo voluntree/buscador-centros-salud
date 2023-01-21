@@ -39,7 +39,7 @@ const PaginaCarga = () => {
   };
 
   const handleBorrar = async () => {
-    let res = await fetch("/deleteAll")
+    let res = await fetch(`http://127.0.0.1:3005/deleteAll`, { method: 'DELETE' })
     console.log(res.status);
   };
 

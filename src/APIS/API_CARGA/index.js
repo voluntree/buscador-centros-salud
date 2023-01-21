@@ -70,13 +70,15 @@ app.get("/carga", async (req, res) => {
   res.end(); //Se finaliza la peticion
 });
 
-app.get("/deleteall", async (req,res)=>{
+/*
+  Se realiza la implementación para una petición de tipo DELETE en la direccion 
+  http://localhost:PORT/carga?comunidad={value}&baleares={value}&euskadi={value}
+*/
+app.delete("/deleteall", async (req,res)=>{ 
   try {
     let refer = ref(db, "/");
-    set(refer,{});
-    res.send(200, { message: "OK"})
+    await set(refer, {});
   } catch (error) {
     console.log("Error borrando");
-    res.send(400, { message: "ERROR"})
   } finally{ console.log("Borrado terminado");}
 });
