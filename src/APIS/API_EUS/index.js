@@ -18,7 +18,7 @@ app.listen(PORT, () => {
 
 /*
   Se realiza la implementación para una petición de tipo GET en la direccion 
-  http://localhost:PORT/busqueda
+  http://localhost:PORT/centros/eus
 */
 app.get("/centros/eus", (req, res) => {
 

@@ -20,7 +20,7 @@ app.listen(PORT, () => {
 
 /*
   Se realiza la implementación para una petición de tipo GET en la direccion 
-  http://localhost:PORT/busqueda
+  http://localhost:PORT/centros/cv
 */
 app.get("/centros/cv", (req, res) => {
     //Lee el archivo CV.csv

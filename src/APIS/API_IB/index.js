@@ -19,7 +19,7 @@ app.listen(PORT, () => {
 
 /*
   Se realiza la implementación para una petición de tipo GET en la direccion 
-  http://localhost:PORT/busqueda
+  http://localhost:PORT/centros/ib
 */
 app.get("/centros/ib", (req, res) => {
     fs.readFile("Baleares.xml", "utf-8", function (err, data) {
