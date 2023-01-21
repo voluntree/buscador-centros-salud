@@ -38,7 +38,10 @@ const PaginaCarga = () => {
     }
   };
 
-  const handleBorrar = () => {};
+  const handleBorrar = async () => {
+    let res = await fetch("/deleteAll")
+    console.log(res.status);
+  };
 
   return (
     <div className="container">
