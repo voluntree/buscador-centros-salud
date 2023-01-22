@@ -16,19 +16,38 @@ const refProvincias = ref(db, "provincias/")   //Obtiene la referencia de las PR
   Obtiene los centros con el metodo onValue que escucha los cambios en la bd y actualiza la 
   información cuando se realiza algún cambio
 */
-var centros = onValue(refCentros, (snapshot) => centros = Object.values(snapshot.val()))
+var centros = onValue(refCentros, (snapshot) => {
+  if(snapshot.val() === null) {
+    centros = []
+  }else{
+    centros = Object.values(snapshot.val())
+  }
+})
+    
 
 /*
   Obtiene las localidades con el metodo onValue que escucha los cambios en la bd y actualiza la 
   información cuando se realiza algún cambio
 */
-var localidades = onValue(refLocalidades, (snapshot) => localidades = Object.values(snapshot.val()))
+var localidades = onValue(refLocalidades, (snapshot) => {
+  if(snapshot.val() === null) {
+    localidades = []
+  }else{
+    localidades = Object.values(snapshot.val())
+  }
+})
 
 /*
   Obtiene las provincias con el metodo onValue que escucha los cambios en la bd y actualiza la 
   información cuando se realiza algún cambio
 */
-var provincias = onValue(refProvincias, (snapshot) => provincias = Object.values(snapshot.val()))
+var provincias = onValue(refProvincias, (snapshot) => {
+  if(snapshot.val() === null) {
+    provincias = []
+  }else{
+    provincias = Object.values(snapshot.val())
+  }
+})
 
 app.use(cors()) //Se utilizan en la API politicas CORS 
 
@@ -140,6 +159,7 @@ app.listen(PORT, () => {
  * 
 */
 app.get("/busqueda", (req, res) => {
+
     //Se obtiene el valor del parametro localidad recibido a traves de la query
     const localidad = req.query.localidad 
 
