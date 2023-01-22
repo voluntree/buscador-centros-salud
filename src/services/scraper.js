@@ -52,48 +52,9 @@ export async function getCoordenadas(calle, provincia, municipio) {
             codigo_postal = data[data.length - 2].substring(0, 6).trim();
 
         if(codigo_postal.match(/^[0-9]{5}$/) == null){ //Si el codigo postal es incorrecto
-
-            //Obtiene el boton para obtener las coordenadas
-            var botonCoordenadas = await driver.findElement(By.xpath('//*[@id="wrap"]/div[2]/div[3]/div[1]/form[2]/div[3]/div/button'))
-            await botonCoordenadas.click() //Clica el boton
-            await sleep(2000) //Espera 2 segundos
-
-            //Obtiene el valor del campo address
-            data = (await direccionInput.getAttribute("value")).split(",");
-            //Obtiene el codigo postal
-            codigo_postal = data[data.length - 2].substring(0, 6).trim();
-
-            if(codigo_postal.match(/^[0-9]{5}$/) == null){ //Si el codigo postal es incorrecto
-                
-                await direccionInput.clear(); //Limpia el contenido del campo
-                //Introduce el municipio y la provincia
-                await direccionInput.sendKeys(municipio + " "  + provincia);
-
-                //Obtiene el boton para obtener las coordenadas
-                var obtenerCoordenadas = await driver.findElement(By.xpath('//*[@id="wrap"]/div[2]/div[3]/div[1]/form[1]/div[2]/div/button'))
-                await obtenerCoordenadas.click(); //Clica el boton
-                await sleep(2000); //Espera 2 segundos
-
-                //Obtiene el campo latitude
-                var latitudeInput = await driver.findElement(By.id("latitude"));
-                //Obtiene el valor del campo 
-                latitud = await latitudeInput.getAttribute("value");
-                
-                //Obtiene el campo longitude
-                var longitudeInput = await driver.findElement(By.id("longitude"));
-                //Obtiene el valor del campo
-                longitud = await longitudeInput.getAttribute("value");
-                
-                //Obtiene el campo address
-                var data = (await direccionInput.getAttribute("value")).split(",");
-                //Obtiene el codigo postal
-                codigo_postal = data[data.length - 2].substring(0, 6).trim();
-
-                if(codigo_postal.match(/^[0-9]{5}$/) == null){ //Si el codigo postal es incorrecto
-                    codigo_postal = "" //Asigna el valor ""
-                }
-            }
+            codigo_postal = "" //Asigna el valor ""
         }
+        
         driver.quit() //Cierra el navegador
 
     }catch(error){ //En caso de error
